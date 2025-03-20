@@ -1,5 +1,65 @@
 ﻿@page "/"
+@using Toolbelt.Blazor.Splitter.V2
+<CascadingValue Value="this"> 
+    <Width xs="11"  Class="">
+        <MudPaper Outlined Style="border:solid 2px">
+            <SplitContainer   TSize="int"  Orientation="SplitterOrientation.Vertical" Style="width:100%; height:95vh;" @bind-FirstPaneSize=FirstPane         UnitOfPaneSize="UnitOfPaneSize.Percent" FirstPaneMinSize="10">
+                <FirstPane>
+                    <LeftAndRight LogIsRight=!LogIsRight UserSettingIsTop=UserSettingIsTop></LeftAndRight>
+                </FirstPane>
+                <SecondPane>
+                    <SplitContainer TSize="int" Orientation="SplitterOrientation.Vertical" Style="width:100%; height:100%;"  @bind-SecondPaneSize=SecondPanel   SecondPaneMinSize="10" UnitOfPaneSize="UnitOfPaneSize.Percent">
+                        <FirstPane>
+                            <SplitContainer TSize="int" Orientation="SplitterOrientation.Horizontal" Style="width:100%; height:100%;"@bind-FirstPaneSize=AcceptAndSend FirstPaneMinSize=20 UnitOfPaneSize="UnitOfPaneSize.Percent">
+                                <FirstPane>
+                                    <DynamicComponent Type="@(SendIsTop ? typeof(RegionOfSend) : typeof(RegionOfAcceptance))" />
+                                </FirstPane>
+                                <SecondPane>
+                                    <DynamicComponent Type="@(!SendIsTop ? typeof(RegionOfSend) : typeof(RegionOfAcceptance))" />
+                                </SecondPane>
+                            </SplitContainer>
+                        </FirstPane>
+                        <SecondPane>
+                            <LeftAndRight LogIsRight=LogIsRight UserSettingIsTop=UserSettingIsTop PortAndUser="PortAndUser"></LeftAndRight>
+                        </SecondPane>
+                    </SplitContainer>
+                </SecondPane>
+            </SplitContainer>
+        </MudPaper>
+    </Width>
+</CascadingValue>
+@code {
 
-<h1>Hello, world!</h1>
 
-Welcome to your new app.
+
+    public bool LogIsRight { get; set; }
+
+    public bool SendIsTop { get; set; }
+
+    public bool UserSettingIsTop { get; set; } 
+
+    public int FirstPane { get; set; } = 20;
+
+    public int SecondPanel { get; set; } = 20;
+
+    public int AcceptAndSend { get; set; } = 40;
+
+    public int PortAndUser { get; set; } = 60;
+
+}
+<style>
+    .pane-of-split-container {
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .spliter-bar {
+        cursor: col-resize;
+        border:  outset;
+        border-color:lightslategray;
+        min-width:10px !important;
+        min-height:10px !important;
+    }
+</style>

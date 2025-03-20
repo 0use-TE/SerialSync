@@ -1,0 +1,24 @@
+﻿@if(LogIsRight)
+{
+    <RegionOfLog></RegionOfLog>
+}
+else
+{
+    <SplitContainer TSize="int" Orientation="SplitterOrientation.Horizontal" Style="width:100%; height:100%;"  @bind-FirstPaneSize=PortAndUser FirstPaneMinSize="20" UnitOfPaneSize="UnitOfPaneSize.Percent">
+        <FirstPane>
+            <DynamicComponent Type="@(UserSettingIsTop ? typeof(UserSetting) : typeof(SerialPortSetting))" />
+        </FirstPane>
+        <SecondPane>
+            <DynamicComponent Type="@(!UserSettingIsTop ? typeof(UserSetting) : typeof(SerialPortSetting))" />
+        </SecondPane>
+    </SplitContainer>
+}
+@code
+{
+    [Parameter]
+    public bool LogIsRight{get;set;}
+    [Parameter]
+    public bool UserSettingIsTop { get; set; }
+    [Parameter]
+    public int PortAndUser{ get; set; }
+}
