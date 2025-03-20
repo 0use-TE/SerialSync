@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
+using MudBlazor;
 using MudBlazor.Services;
+using SerialSync.Services;
 
 namespace SerialSync
 {
@@ -15,8 +17,13 @@ namespace SerialSync
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 });
 			
-            builder.Services.AddMudServices();
-
+            builder.Services.AddMudServices(
+                 config=>config.SnackbarConfiguration=new SnackbarConfiguration
+                 { 
+                      PositionClass=Defaults.Classes.Position.BottomRight
+                 }
+                );
+            builder.Services.AddSingleton<GlobalState>();
 			builder.Services.AddMauiBlazorWebView();
 
 #if DEBUG

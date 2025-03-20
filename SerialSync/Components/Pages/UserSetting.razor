@@ -1,5 +1,43 @@
-﻿<h3>UserSetting</h3>
+﻿@using SerialSync.Misc
+@inject IDialogService DialogService
+<div class="pa-1" style="height:100%">
+	<MudPaper Outlined Class=" pa-1 d-flex flex-column align-center" Width="100%" Height="100%">
+		<MudText Align="Align.Center" Color="Color.Primary" Typo="Typo.h6" Style="font-weight:600">布局设置</MudText>
+		<MudButtonGroup FullWidth Variant="Variant.Outlined" Color="Color.Primary" Vertical="true">
+			<MudButton Class="button" OnClick="LogIsRight">日志@("<->")设置</MudButton>
+			<MudButton Class="button" OnClick="SendIsTop">接收@("<->")发送</MudButton>
+			<MudButton Class="button" OnClick="UserSettingIsTop">串口@("<->")布局</MudButton>
+			<MudButtonGroup Color="Color.Primary" Variant="Variant.Outlined" FullWidth>
+				<MudButton Class="button">保存</MudButton>
+				<MudButton Class="button">明暗</MudButton>
+			</MudButtonGroup>
+			<MudButtonGroup Color="Color.Primary" Variant="Variant.Outlined" FullWidth>
+				<MudButton Class="button">日志目录</MudButton>
+				<MudButton Class="button">清空日志</MudButton>
+			</MudButtonGroup>
+			<MudButton Class="button" OnClick="ShowMaker">开发者的....😊</MudButton>
+		</MudButtonGroup>
+	</MudPaper>
+</div>
 
-@code {
-
+@code
+{
+	[CascadingParameter]
+	private Home Home { get; set; } = null!;
+	public async Task LogIsRight()
+	{
+		Home.LogIsRight = !Home.LogIsRight;
+		await Home.ReRender();
+	}
+	public async Task SendIsTop()
+	{
+		Home.SendIsTop = !Home.SendIsTop;
+		await Home.ReRender();
+	}
+	public async Task UserSettingIsTop()
+	{
+		Home.UserSettingIsTop= !Home.UserSettingIsTop;
+		await Home.ReRender();
+	}
+	public async Task  ShowMaker()=>await DialogService.ShowAsync<MakerDialog>("制作人",options:Settings.DialogOptions);
 }

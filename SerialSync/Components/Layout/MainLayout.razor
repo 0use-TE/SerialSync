@@ -1,15 +1,17 @@
-﻿@inherits LayoutComponentBase
+﻿@using SerialSync.Misc
+@inherits LayoutComponentBase
 
-<MudThemeProvider />
+<MudThemeProvider Theme="Theme.Themetheme" />
 <MudPopoverProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
 <MudLayout>
-    <MudMainContent Class="pt-0">
+    <MudMainContent  Class="pt-0">
         @Body
     </MudMainContent>
 </MudLayout>
 
 @code {
+    private bool isDarkMode;
 }

@@ -86,3 +86,10 @@ h1:focus {
         padding-left: env(safe-area-inset-left);
     }
 }
+.button {
+    transition: all 1s;
+}
+
+    .button:hover {
+        transform: scale(1.15);
+    }

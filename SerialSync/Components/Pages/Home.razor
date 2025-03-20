@@ -1,26 +1,32 @@
 ﻿@page "/"
+@using BlazorAnimate
 @using Toolbelt.Blazor.Splitter.V2
 <CascadingValue Value="this"> 
     <Width xs="11"  Class="">
         <MudPaper Outlined Style="border:solid 2px">
-            <SplitContainer   TSize="int"  Orientation="SplitterOrientation.Vertical" Style="width:100%; height:95vh;" @bind-FirstPaneSize=FirstPane         UnitOfPaneSize="UnitOfPaneSize.Percent" FirstPaneMinSize="10">
+            <SplitContainer   TSize="int"  Orientation="SplitterOrientation.Vertical" Style="width:100%; height:98vh;" @bind-FirstPaneSize=FirstPane         UnitOfPaneSize="UnitOfPaneSize.Percent" FirstPaneMinSize="10">
+
                 <FirstPane>
-                    <LeftAndRight LogIsRight=!LogIsRight UserSettingIsTop=UserSettingIsTop></LeftAndRight>
+                    <LeftAndRight LogIsRight=!LogIsRight ></LeftAndRight>
                 </FirstPane>
                 <SecondPane>
                     <SplitContainer TSize="int" Orientation="SplitterOrientation.Vertical" Style="width:100%; height:100%;"  @bind-SecondPaneSize=SecondPanel   SecondPaneMinSize="10" UnitOfPaneSize="UnitOfPaneSize.Percent">
                         <FirstPane>
                             <SplitContainer TSize="int" Orientation="SplitterOrientation.Horizontal" Style="width:100%; height:100%;"@bind-FirstPaneSize=AcceptAndSend FirstPaneMinSize=20 UnitOfPaneSize="UnitOfPaneSize.Percent">
                                 <FirstPane>
-                                    <DynamicComponent Type="@(SendIsTop ? typeof(RegionOfSend) : typeof(RegionOfAcceptance))" />
+                                    <Animate Animation="Animations.FadeDown" DurationMs="600">
+                                        <DynamicComponent Type="@(SendIsTop ? typeof(RegionOfSend) : typeof(RegionOfAcceptance))" />
+                                    </Animate>
                                 </FirstPane>
                                 <SecondPane>
-                                    <DynamicComponent Type="@(!SendIsTop ? typeof(RegionOfSend) : typeof(RegionOfAcceptance))" />
+                                    <Animate Animation="Animations.FadeUp" DurationMs="600">
+                                        <DynamicComponent Type="@(!SendIsTop ? typeof(RegionOfSend) : typeof(RegionOfAcceptance))" />
+                                    </Animate>
                                 </SecondPane>
                             </SplitContainer>
                         </FirstPane>
                         <SecondPane>
-                            <LeftAndRight LogIsRight=LogIsRight UserSettingIsTop=UserSettingIsTop PortAndUser="PortAndUser"></LeftAndRight>
+                            <LeftAndRight  LogIsRight=LogIsRight></LeftAndRight>
                         </SecondPane>
                     </SplitContainer>
                 </SecondPane>
@@ -29,9 +35,6 @@
     </Width>
 </CascadingValue>
 @code {
-
-
-
     public bool LogIsRight { get; set; }
 
     public bool SendIsTop { get; set; }
@@ -45,6 +48,7 @@
     public int AcceptAndSend { get; set; } = 40;
 
     public int PortAndUser { get; set; } = 60;
+    public async Task ReRender() =>await InvokeAsync(StateHasChanged);
 
 }
 <style>
@@ -62,4 +66,9 @@
         min-width:10px !important;
         min-height:10px !important;
     }
+    .aos-animate {
+    width: 100%;
+    height: 100%;
+}
+
 </style>
