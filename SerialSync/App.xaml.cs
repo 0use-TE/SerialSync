@@ -1,16 +1,12 @@
 ﻿using SerialSync.Misc;
-using SerialSync.Services;
 
 namespace SerialSync
 {
     public partial class App : Application
     {
-        private readonly GlobalState _globalState;
-        public App(GlobalState globalState)
+        public App()
         {
             InitializeComponent();
-            _globalState = globalState;
-            _globalState.LayoutInfo = Unilities.LoadLayoutInfo();
         }
         protected override void OnSleep()
         {

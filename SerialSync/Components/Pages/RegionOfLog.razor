@@ -4,3 +4,10 @@
         <MudDivider></MudDivider>
     </MudPaper>
 </div>
+
+@code{
+    public void Read()
+    {
+       var lines=File.ReadAllLinesAsync(Settings.LogPath);
+    }
+}

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using MudBlazor;
 using MudBlazor.Services;
-using SerialSync.Services;
+using SerialSync.Misc;
 using Serilog;
 
 namespace SerialSync
@@ -21,14 +21,14 @@ namespace SerialSync
             builder.Services.AddMudServices(
                  config=>config.SnackbarConfiguration=new SnackbarConfiguration
                  { 
-                      PositionClass=Defaults.Classes.Position.BottomRight
+                      PositionClass=Defaults.Classes.Position.BottomLeft,
+                       HideTransitionDuration=400
                  }
                 );
-            builder.Services.AddSingleton<GlobalState>();
 			builder.Services.AddMauiBlazorWebView();
             //DI日志
             // 获取应用程序的本地存储路径
-            string logPath = Path.Combine(FileSystem.AppDataDirectory, "SerialSync", "log-.txt");
+            string logPath = Settings.LogPath;
             Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Debug() // 设置最低日志级别
             .WriteTo.File(

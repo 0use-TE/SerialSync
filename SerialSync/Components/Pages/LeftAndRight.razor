@@ -7,15 +7,15 @@
 }
 else
 {
-    <SplitContainer TSize="int" Orientation="SplitterOrientation.Horizontal" Style="width:100%; height:100%;"  @bind-FirstPaneSize=Home.LayoutInfo.PortAndUser FirstPaneMinSize="20" UnitOfPaneSize="UnitOfPaneSize.Percent">
+    <SplitContainer TSize="int" Orientation="SplitterOrientation.Horizontal" Style="width:100%; height:100%;"  @bind-FirstPaneSize=Home.Layout.PortAndUser FirstPaneMinSize="20" UnitOfPaneSize="UnitOfPaneSize.Percent">
         <FirstPane>
             <Animate Animation="Animations.Fade" DurationMs="600">
-                <DynamicComponent Type="@(Home.LayoutInfo.UserSettingIsTop ? typeof(UserSetting) : typeof(SerialPortSetting))" />
+                <DynamicComponent Type="@(Home.Layout.UserSettingIsTop ? typeof(UserSetting) : typeof(SerialPortSetting))" />
             </Animate>
         </FirstPane>
         <SecondPane>
             <Animate Animation="Animations.Fade" DurationMs="600">
-                <DynamicComponent Type="@(!Home.LayoutInfo.UserSettingIsTop ? typeof(UserSetting) : typeof(SerialPortSetting))" />
+                <DynamicComponent Type="@(!Home.Layout.UserSettingIsTop ? typeof(UserSetting) : typeof(SerialPortSetting))" />
             </Animate>
         </SecondPane>
     </SplitContainer>

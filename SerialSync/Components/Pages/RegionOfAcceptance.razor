@@ -1,5 +1,4 @@
-﻿@inject GlobalState GlobalState
-<div class="pa-2" style="width:100%;height:100%">
+﻿<div class="pa-2" style="width:100%;height:100%">
 <MudPaper Class="pa-2" Width="100%" Height="100%" Outlined>
         <MudText Align="Align.Center" Typo="Typo.h6" Color="Color.Primary" Style="font-weight:600">接收区</MudText>
         <MudDivider></MudDivider>
@@ -20,7 +19,7 @@
 
 @code {
     private MauiSerialPort MauiSerialPort { get; set; } = new MauiSerialPort();
-    string[] strings = { "暂未检测到串口","123das","王硕"};
+    string[] strings = { "暂未检测到串口"};
     protected override void OnInitialized()
     {
         

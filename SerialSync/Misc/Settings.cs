@@ -1,4 +1,5 @@
-﻿using MudBlazor;
+﻿using ElegantSeries;
+using MudBlazor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,9 @@ namespace SerialSync.Misc
 			CloseButton = true,
 			NoHeader = true
 		};
-		public static string LayoutInfo { get; set; } = nameof(LayoutInfo);
-		public static string LightDrakMode { get; set; } = nameof(LightDrakMode);
+        public  static MauiSerialPort MauiSerialPort { get; set; } = new MauiSerialPort();
+        public static List<string> SendedMsg { get; set; } = new List<string>();
+        public  static List<string> ReceivedMsg { get; set; } = new List<string>();
+		public static string LogPath { get; set; }=Path.Combine(FileSystem.AppDataDirectory, "SerialSync", "log-.txt");
     }
 }

@@ -11,7 +11,7 @@
 				<MudButton Class="button">日志</MudButton>
 				<MudButton Class="button">明暗</MudButton>
 			</MudButtonGroup>
-			<MudButton Class="button" OnClick="ShowMaker">开发者的....😊</MudButton>
+			<MudButton Class="button" OnClick="ShowMaker">开发者的....</MudButton>
 		</MudButtonGroup>
 	</MudPaper>
 </div>
@@ -22,17 +22,17 @@
 	private Home Home { get; set; } = null!;
 	public async Task LogIsRight()
 	{
-		Home.LayoutInfo.LogIsRight = !Home.LayoutInfo.LogIsRight;
+		Home.Layout.LogIsRight = !Home.Layout.LogIsRight;
 		await Home.ReRender();
 	}
 	public async Task SendIsTop()
 	{
-		Home.LayoutInfo.SendIsTop = !Home.LayoutInfo.SendIsTop;
+		Home.Layout.SendIsTop = !Home.Layout.SendIsTop;
 		await Home.ReRender();
 	}
 	public async Task UserSettingIsTop()
 	{
-		Home.LayoutInfo.UserSettingIsTop= !Home.LayoutInfo.UserSettingIsTop;
+		Home.Layout.UserSettingIsTop= !Home.Layout.UserSettingIsTop;
 		await Home.ReRender();
 	}
 	public async Task  ShowMaker()=>await DialogService.ShowAsync<MakerDialog>("制作人",options:Settings.DialogOptions);
