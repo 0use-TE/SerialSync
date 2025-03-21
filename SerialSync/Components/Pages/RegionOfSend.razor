@@ -8,19 +8,35 @@
         <SplitContainer @bind-FirstPaneSize=Home.Layout.SendAndSended Style="width:100%;height:100%;" FirstPaneMinSize="5" SecondPaneMinSize="5"
         UnitOfPaneSize="UnitOfPaneSize.Percent" Orientation="SplitterOrientation.Horizontal" TSize="int" >
             <FirstPane>
-                <div class="d-flex flex-column align-center justify-start" style="width:100%;height:100%">
-                    <MudText Typo="Typo.h6" Align="Align.Center" Color="Color.Primary" Style="font-weight:600">历史</MudText>
-                    <MudDivider></MudDivider>   
+                <div class="d-flex flex-column align-center  " style="width:100%;height:100%">
+                    <MudText Typo="Typo.h6" Align="Align.Center" Color="Color.Primary" Style="font-weight:600">历史</MudText>    
+                    @foreach (var item in Settings.SendedMsg)
+                    {
+                        <MudDivider Class="" Style="flex-grow:0"></MudDivider>
+                        <MudStack Row   AlignItems="AlignItems.End" Style="width:100%;height:auto " Class="px-3">
+                            <MudText  Typo="Typo.subtitle2" Align="Align.Start">@item.SendMsg</MudText>
+                            <MudSpacer></MudSpacer>
+                            <MudText Typo="Typo.subtitle2" Class="">
+                                @($"{item.Span.Hours:D2}:{item.Span.Minutes:D2}")
+                            </MudText>
+                        </MudStack>
+                    }
+                    <MudDivider Class="" Style="flex-grow:0"></MudDivider>
                 </div>
+
 
             </FirstPane>
             <SecondPane >
                 <div class="d-flex flex-column pa-1" style="width:100%;height:100%" id="send"  @ref=container>
-                    <MudTextField  @bind-value=Text Lines="TextLines"  Variant="Variant.Outlined" Label="请输入要发送的内容">
+                    <MudTextField  Clearable ClearIcon="@Icons.Material.Outlined.DeleteOutline" @bind-value=Text Lines="TextLines"  Variant="Variant.Outlined" Label="请输入要发送的内容">
                     </MudTextField>
-                    <MudButton Color="Color.Primary" Class="ml-auto" Variant="Variant.Outlined" OnClick="Send">
+                    <div class="ml-auto">
+                    <MudTooltip Arrow Color="Color.Secondary" Text="发送到设备!" >
+                    <MudButton Class="" Color="Color.Primary"  Variant="Variant.Outlined" OnClick="Send">
                         发送
                     </MudButton>
+                    </MudTooltip>
+                    </div>
                 </div>
             </SecondPane>
         </SplitContainer>
@@ -61,7 +77,12 @@
                     Snackbar.Add("发送成功!", Severity.Success);
                     var content = Encoding.UTF8.GetBytes(Text);
                     serialPort.Write(content);
-                    Settings.SendedMsg.Add(Text);
+                    var sendModel = new SendModel
+                        {
+                            SendMsg = Text,
+                            Span = DateTime.Now.TimeOfDay
+                        };
+                    Settings.SendedMsg.Add(sendModel);
                     Logger.LogInformation($"发送了内容:{Text}");
                 }
                 catch (Exception e)

@@ -1,13 +1,62 @@
-﻿<div class="pa-2" style="width:100%;height:100%">
+﻿@using System.Diagnostics
+@using System.IO
+@using NLog.Targets
+@inject ILogger<RegionOfLog> Logger
+@inject ISnackbar Snackbar
+@inject MemoryTarget MemoryTarget
+<div class="pa-2" style="width:100%;height:100%">
     <MudPaper Class="pa-2" Width="100%" Height="100%" Outlined>
         <MudText Align="Align.Center" Typo="Typo.h6" Color="Color.Primary" Style="font-weight:600">日志</MudText>
         <MudDivider></MudDivider>
+        @foreach (var item in logs)
+        {
+            <MudText Typo="Typo.subtitle2">
+                @item
+            </MudText>
+        }
     </MudPaper>
 </div>
-
-@code{
-    public void Read()
+@code {
+    private List<string> logs = new List<string>();
+    private string currentLogPath = string.Empty;
+    private Timer? timer;
+    protected override async Task OnInitializedAsync()
     {
-       var lines=File.ReadAllLinesAsync(Settings.LogPath);
+        await InitializeLogReader();
+    }
+
+    private async Task InitializeLogReader()
+    {
+        string dateStr = DateTime.Now.ToString("yyyyMMdd");
+        currentLogPath = Path.Combine(FileSystem.AppDataDirectory, "SerialSync", $"log-{dateStr}.txt");
+        await Read();
+
+        logs = MemoryTarget.Logs.ToList();
+        timer = new Timer(CheckForUpdates, null, 1000, 1000);
+        Logger.LogInformation("开始监控内存日志");
+    }
+
+    public async Task Read()
+    {
+        if (File.Exists(currentLogPath))
+        {
+            var result = await File.ReadAllLinesAsync(currentLogPath);
+            logs = result.ToList();
+            StateHasChanged(); // 初始加载时更新 UI
+        }
+    }
+    private void CheckForUpdates(object? state)
+    {
+        var newLogs = MemoryTarget.Logs.ToList();
+        if (newLogs.Count > logs.Count)
+        {
+            logs.AddRange(newLogs.Skip(logs.Count)); // 只添加新日志
+            InvokeAsync(() => StateHasChanged());
+        }
+    }
+
+    public void Dispose()
+    {
+        timer?.Dispose();
     }
 }

@@ -49,7 +49,7 @@ namespace SerialSync.Models
                 SecondPanel = Preferences.Get("SecondPanel", 20),
                 AcceptAndSend = Preferences.Get("AcceptAndSend", 50),
                 PortAndUser = Preferences.Get("PortAndUser", 60),
-                SendAndSended = Preferences.Get("SendAndSended", 15)
+                SendAndSended = Preferences.Get("SendAndSended", 10)
             };
         }
 

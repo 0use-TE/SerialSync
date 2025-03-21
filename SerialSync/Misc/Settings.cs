@@ -17,8 +17,18 @@ namespace SerialSync.Misc
 			NoHeader = true
 		};
         public  static MauiSerialPort MauiSerialPort { get; set; } = new MauiSerialPort();
-        public static List<string> SendedMsg { get; set; } = new List<string>();
-        public  static List<string> ReceivedMsg { get; set; } = new List<string>();
+        public static List<SendModel> SendedMsg { get; set; } = new List<SendModel>();
+        public  static List<ReciveModel> ReceivedMsg { get; set; } = new List<ReciveModel>();
 		public static string LogPath { get; set; }=Path.Combine(FileSystem.AppDataDirectory, "SerialSync", "log-.txt");
+    }
+	public class SendModel
+	{
+		public string ?SendMsg { get; set; }
+		public TimeSpan Span { get; set; }
+	}
+    public class ReciveModel
+    {
+        public string? RecivedMsg { get; set; }
+        public TimeSpan Span { get; set; }
     }
 }

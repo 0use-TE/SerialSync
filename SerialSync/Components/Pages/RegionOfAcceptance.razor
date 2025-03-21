@@ -1,27 +1,41 @@
 ﻿<div class="pa-2" style="width:100%;height:100%">
-<MudPaper Class="pa-2" Width="100%" Height="100%" Outlined>
+    <MudPaper Class="pa-2" Width="100%" Height="100%" Outlined>
         <MudText Align="Align.Center" Typo="Typo.h6" Color="Color.Primary" Style="font-weight:600">接收区</MudText>
         <MudDivider></MudDivider>
-        @foreach (var item in strings)
+        @foreach (var item in Settings.ReceivedMsg)
         {
-                <MudGrid>
+            <MudGrid>
                 <MudItem Class="d-flex" xs="9">
-            <MudText Typo="Typo.subtitle2">@item</MudText>
+                    <MudText Typo="Typo.subtitle2">@item.RecivedMsg</MudText>
                 </MudItem>
                 <MudItem Class="d-flex" xs="3">
-                <MudText>@DateTime.Now</MudText>
+                    <MudText Typo="Typo.subtitle2">
+                        @($"{item.Span.Hours:D2}:{item.Span.Minutes:D2}:{item.Span.Seconds:D2}")
+                    </MudText>
                 </MudItem>
-                </MudGrid>
+            </MudGrid>
             <MudDivider></MudDivider>
         }
-</MudPaper>
+    </MudPaper>
 </div>
 
 @code {
     private MauiSerialPort MauiSerialPort { get; set; } = new MauiSerialPort();
-    string[] strings = { "暂未检测到串口"};
+    private Timer? timer;
+
     protected override void OnInitialized()
     {
-        
+        Settings.MauiSerialPort = MauiSerialPort;
+        timer = new Timer(GetMsg, null, 0, 1000); // 立即开始，每 100ms 检查
+    }
+    private void GetMsg(object? state)
+    {
+      
+    }
+    public void Dispose()
+    {
+        timer?.Dispose();
     }
 }
+
+@implements IDisposable

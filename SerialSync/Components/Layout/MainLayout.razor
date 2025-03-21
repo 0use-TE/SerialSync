@@ -1,17 +1,53 @@
 ﻿@using SerialSync.Misc
 @inherits LayoutComponentBase
 
-<MudThemeProvider Theme="Theme.Themetheme" />
+<MudThemeProvider Theme="Theme.Themetheme" @bind-IsDarkMode=isDarkMode/>
 <MudPopoverProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
+<div class="theme-transition-overlay @(isAnimating ? "animate" : "")"></div>
 
 <MudLayout>
+    <CascadingValue Value="this">
     <MudMainContent  Class="pt-0">
         @Body
     </MudMainContent>
+    </CascadingValue>
 </MudLayout>
-
+<style>
+    /* 过渡动画层 */
+    .theme-transition-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100vw;
+    height: 100vh;
+    /* 使用新主题背景色或者你期望的颜色，建议通过 CSS 变量来管理 */
+    background-color: var(--mud-palette-background, #fff);
+    z-index: 3000; /* 确保在最上层 */
+    pointer-events: none;
+    clip-path: circle(0% at 100% 0);
+    transition: clip-path 0.6s ease-in-out;
+    }
+    /* 当添加 animate 类时，clip-path 扩大到足够覆盖整个屏幕 */
+    .theme-transition-overlay.animate {
+    clip-path: circle(150% at 100% 0);
+    }
+</style>
 @code {
+    private bool isAnimating;
     private bool isDarkMode;
+    // 根据当前状态返回主题
+    public async Task ToggleTheme()
+    {
+        isAnimating = true;
+        StateHasChanged();
+        // 动画时长，比如 600 毫秒，根据实际需要调整
+        await Task.Delay(600);
+        // 切换主题
+        isDarkMode = !isDarkMode;
+        // 结束动画：隐藏 overlay
+        isAnimating = false;
+        StateHasChanged();
+    }
 }

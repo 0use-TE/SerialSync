@@ -39,12 +39,14 @@
     </Width>
 </CascadingValue>
 @code {
+
     public LayoutInfo Layout { get; set; } = new LayoutInfo();
     protected override Task OnInitializedAsync()
     {
         Layout=LayoutInfo.Layout;
         return base.OnInitializedAsync();
     }
+
     public void Save() => LayoutInfo.SaveLayoutInfo(Layout);
     public void Load() => Layout=LayoutInfo.LoadLayoutInfo();
     
