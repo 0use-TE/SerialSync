@@ -1,32 +1,37 @@
 ﻿@page "/"
+@inject ILogger<Home> Logger
+@inject GlobalState GlobalState
 @using BlazorAnimate
+@using SerialSync.Misc
+@using SerialSync.Models
 @using Toolbelt.Blazor.Splitter.V2
+
 <CascadingValue Value="this"> 
-    <Width xs="11"  Class="">
+    <Width xs="12"  Class="pa-4">
         <MudPaper Outlined Style="border:solid 2px">
-            <SplitContainer   TSize="int"  Orientation="SplitterOrientation.Vertical" Style="width:100%; height:98vh;" @bind-FirstPaneSize=FirstPane         UnitOfPaneSize="UnitOfPaneSize.Percent" FirstPaneMinSize="10">
+            <SplitContainer   TSize="int"  Orientation="SplitterOrientation.Vertical" Style="width:100%; height:95vh;" @bind-FirstPaneSize=LayoutInfo.FirstPane   UnitOfPaneSize="UnitOfPaneSize.Percent" FirstPaneMinSize="10">
 
                 <FirstPane>
-                    <LeftAndRight LogIsRight=!LogIsRight ></LeftAndRight>
+                    <LeftAndRight LogIsRight=!LayoutInfo.LogIsRight ></LeftAndRight>
                 </FirstPane>
                 <SecondPane>
-                    <SplitContainer TSize="int" Orientation="SplitterOrientation.Vertical" Style="width:100%; height:100%;"  @bind-SecondPaneSize=SecondPanel   SecondPaneMinSize="10" UnitOfPaneSize="UnitOfPaneSize.Percent">
+                    <SplitContainer TSize="int" Orientation="SplitterOrientation.Vertical" Style="width:100%; height:100%;" @bind-SecondPaneSize=LayoutInfo.SecondPanel SecondPaneMinSize="10" UnitOfPaneSize="UnitOfPaneSize.Percent">
                         <FirstPane>
-                            <SplitContainer TSize="int" Orientation="SplitterOrientation.Horizontal" Style="width:100%; height:100%;"@bind-FirstPaneSize=AcceptAndSend FirstPaneMinSize=20 UnitOfPaneSize="UnitOfPaneSize.Percent">
+                            <SplitContainer TSize="int" Orientation="SplitterOrientation.Horizontal" Style="width:100%; height:100%;" @bind-FirstPaneSize=LayoutInfo.AcceptAndSend FirstPaneMinSize=20 UnitOfPaneSize="UnitOfPaneSize.Percent">
                                 <FirstPane>
                                     <Animate Animation="Animations.FadeDown" DurationMs="600">
-                                        <DynamicComponent Type="@(SendIsTop ? typeof(RegionOfSend) : typeof(RegionOfAcceptance))" />
+                                        <DynamicComponent Type="@(LayoutInfo.SendIsTop ? typeof(RegionOfSend) : typeof(RegionOfAcceptance))" />
                                     </Animate>
                                 </FirstPane>
                                 <SecondPane>
                                     <Animate Animation="Animations.FadeUp" DurationMs="600">
-                                        <DynamicComponent Type="@(!SendIsTop ? typeof(RegionOfSend) : typeof(RegionOfAcceptance))" />
+                                        <DynamicComponent Type="@(!LayoutInfo.SendIsTop ? typeof(RegionOfSend) : typeof(RegionOfAcceptance))" />
                                     </Animate>
                                 </SecondPane>
                             </SplitContainer>
                         </FirstPane>
                         <SecondPane>
-                            <LeftAndRight  LogIsRight=LogIsRight></LeftAndRight>
+                            <LeftAndRight  LogIsRight=LayoutInfo.LogIsRight></LeftAndRight>
                         </SecondPane>
                     </SplitContainer>
                 </SecondPane>
@@ -35,21 +40,22 @@
     </Width>
 </CascadingValue>
 @code {
-    public bool LogIsRight { get; set; }
-
-    public bool SendIsTop { get; set; }
-
-    public bool UserSettingIsTop { get; set; } 
-
-    public int FirstPane { get; set; } = 20;
-
-    public int SecondPanel { get; set; } = 20;
-
-    public int AcceptAndSend { get; set; } = 40;
-
-    public int PortAndUser { get; set; } = 60;
-    public async Task ReRender() =>await InvokeAsync(StateHasChanged);
-
+    public LayoutInfo LayoutInfo { get; set; } = new LayoutInfo();
+    protected override Task OnInitializedAsync()
+    {
+        LayoutInfo=GlobalState.LayoutInfo;
+        return base.OnInitializedAsync();
+    }
+    public void Save() => Unilities.SaveLayoutInfo(LayoutInfo);
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+    }
+    public async Task ReRender()
+    {
+        Save();
+        await InvokeAsync(StateHasChanged);
+    }
 }
 <style>
     .pane-of-split-container {

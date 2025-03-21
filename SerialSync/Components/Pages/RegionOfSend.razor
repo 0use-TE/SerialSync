@@ -1,5 +1,59 @@
-﻿<h3>RegionOfSend</h3>
+﻿@using System.Diagnostics
+@inject IJSRuntime JSRuntime
+@inject ILogger<RegionOfSend> Logger
+<div class="pa-2" style="width:100%;height:100%">
+    <MudPaper  Width="100%" Height="100%" Outlined>
+        <SplitContainer @bind-FirstPaneSize=Home.LayoutInfo.SendAndSended Style="width:100%;height:100%;" FirstPaneMinSize="5" SecondPaneMinSize="5"
+        UnitOfPaneSize="UnitOfPaneSize.Percent" Orientation="SplitterOrientation.Horizontal" TSize="int" >
+            <FirstPane>
 
-@code {
+            </FirstPane>
+            <SecondPane >
+                <div class="d-flex flex-column pa-1" style="width:100%;height:100%" id="send"  @ref=container>
+                    <MudTextField  @bind-value=Text Lines="TextLines"  Variant="Variant.Outlined" Label="请输入要发送的内容">
+                    </MudTextField>
+                    <MudButton Color="Color.Primary" Class="ml-auto" Variant="Variant.Outlined" >
+                        发送
+                    </MudButton>
+                </div>
+            </SecondPane>
+        </SplitContainer>
+    </MudPaper>
+</div>
 
+@code
+{
+    [CascadingParameter]
+    private Home Home { get; set; } = null!;
+    private string? Text { get; set; }
+    private int TextLines { get; set; } = 5;
+    private ElementReference container;
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if(firstRender)
+        {
+            await SecondPaneSize();
+           await JSRuntime.InvokeVoidAsync("tools.addResizeListener",container,DotNetObjectReference.Create(this));
+        }
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+
+    private async Task SecondPaneSize()
+    {
+        var result = await GetSecondPaneHeight();
+        Debug.WriteLine(result);
+        TextLines = result / 30;
+        Debug.WriteLine(TextLines);
+        await InvokeAsync(StateHasChanged);
+    }
+    private async Task<int> GetSecondPaneHeight()
+    {
+        return await JSRuntime.InvokeAsync<int>("tools.getElementHeight", "send");
+    }
+    [JSInvokable]
+    public async Task OnResize()
+    {
+        await SecondPaneSize();
+    }
 }

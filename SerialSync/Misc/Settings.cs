@@ -15,5 +15,7 @@ namespace SerialSync.Misc
 			CloseButton = true,
 			NoHeader = true
 		};
-	}
+		public static string LayoutInfo { get; set; } = nameof(LayoutInfo);
+		public static string LightDrakMode { get; set; } = nameof(LightDrakMode);
+    }
 }

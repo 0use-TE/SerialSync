@@ -1,9 +1,8 @@
-﻿@using ElegantSeries
-@using ElegantSeries.Enums
+﻿
 @inject ISnackbar Snackbar
 @inject GlobalState GlobalState
-<EditForm Model="SerialPort"  style="width:100%;height: 100%;min-height:100%" class="pa-1" OnValidSubmit="Commit">
-	<MudPaper Outlined Width="100%" Height="100%" Class="pa-1">
+	<MudPaper Outlined Width="100%" Height="100%" Class="pa-1 my-1" >
+<EditForm Model="SerialPort"  style="width:100%;height: 100%;min-height:100%" classlass="pa-1" OnValidSubmit="Commit">
 		<div class="d-flex justify-center align-center">
 			<MudTooltip Text="请设置您的串口!" Arrow Color="Color.Secondary" Class="" >
 				<MudText Align="Align.Center" Typo="Typo.h6" Color="Color.Primary" Style="font-weight:600">设置串口</MudText>
@@ -48,8 +47,8 @@
 		<div class="d-flex">
 			<MudButton ButtonType="ButtonType.Submit" Class="ml-auto" Variant="Variant.Outlined" Color="Color.Primary">@(SerialPort.IsOpen?"断开":"连接")</MudButton>
 		</div>
-	</MudPaper>
 </EditForm>
+	</MudPaper>
 @code
 {
 	private MauiSerialPort SerialPort { get; set; } = new MauiSerialPort();
