@@ -18,7 +18,7 @@ namespace SerialSync.Misc
             var fileTarget = new NLog.Targets.FileTarget("file")
             {
                 FileName = Path.Combine(FileSystem.AppDataDirectory, "SerialSync", "log-.txt"),
-                ArchiveFileName = "${basedir}/archives/log.{#}.txt",
+                ArchiveFileName = "${basedir}/archives/log-.txt",
                 ArchiveEvery = NLog.Targets.FileArchivePeriod.Day,
                 ArchiveNumbering = NLog.Targets.ArchiveNumberingMode.Rolling,
                 MaxArchiveFiles = 7,
@@ -31,8 +31,8 @@ namespace SerialSync.Misc
             };
 
             // 规则：文件记录所有级别，内存只记录 Information
-            config.AddRule(NLog.LogLevel.Info, NLog.LogLevel.Fatal, fileTarget);
-            config.AddRule(NLog.LogLevel.Info, NLog.LogLevel.Info, memoryTarget); // 只接收 Information
+            config.AddRule(NLog.LogLevel.Info, NLog.LogLevel.Error, fileTarget);
+            config.AddRule(NLog.LogLevel.Info, NLog.LogLevel.Error, memoryTarget); // 只接收 Information
             NLog.LogManager.Configuration = config;
 
             // 将 NLog 添加到依赖注入

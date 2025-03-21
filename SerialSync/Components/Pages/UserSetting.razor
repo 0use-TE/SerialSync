@@ -1,24 +1,26 @@
 ﻿@using SerialSync.Components.Layout
+@using SerialSync.Components.Reusable
 @using SerialSync.Misc
 @inject IDialogService DialogService
 @inject ISnackbar Snackbar
 @inject ILogger<UserSetting> Logger
 <div class="pa-1" style="height:100%">
-	<MudPaper Outlined Class=" pa-1 d-flex flex-column align-center" Width="100%" Height="100%">
+	<MudPaper Outlined Class="pa-1 d-flex flex-column align-center" Width="100%" Height="100%">
 		<MudText Align="Align.Center" Color="Color.Primary" Typo="Typo.h6" Style="font-weight:600">布局设置</MudText>
-		<MudButtonGroup FullWidth Variant="Variant.Outlined" Color="Color.Primary" Vertical="true">
-			<MudButton Class="button" OnClick="LogIsRight">日志@("<->")设置</MudButton>
-			<MudButton Class="button" OnClick="SendIsTop">接收@("<->")发送</MudButton>
-			<MudButton Class="button" OnClick="UserSettingIsTop">串口@("<->")布局</MudButton>
-			<MudButtonGroup Color="Color.Primary" Variant="Variant.Outlined" FullWidth>
-				<MudButton Class="button" OnClick="OpenLogFile">日志</MudButton>
-				<MudButton Class="button" OnClick="MainLayout.ToggleTheme">明暗</MudButton>
+		<div style="flex-grow: 1; width: 100%; overflow-y: auto;">
+			<MudButtonGroup FullWidth Variant="Variant.Outlined" Color="Color.Primary" Vertical="true">
+				<MudButton Class="button" OnClick="LogIsRight">日志@("<->")设置</MudButton>
+				<MudButton Class="button" OnClick="SendIsTop">接收@("<->")发送</MudButton>
+				<MudButton Class="button" OnClick="UserSettingIsTop">串口@("<->")布局</MudButton>
+				<MudButtonGroup Color="Color.Primary" Variant="Variant.Outlined" FullWidth>
+					<MudButton Class="button" OnClick="OpenLogFile">日志</MudButton>
+					<MudButton Class="button" OnClick="MainLayout.ToggleTheme">明暗</MudButton>
+				</MudButtonGroup>
+				<MudButton Class="button" OnClick="ShowMaker">开发者的....</MudButton>
 			</MudButtonGroup>
-			<MudButton Class="button" OnClick="ShowMaker">开发者的....</MudButton>
-		</MudButtonGroup>
+		</div>
 	</MudPaper>
 </div>
-
 @code
 {
 	[CascadingParameter]

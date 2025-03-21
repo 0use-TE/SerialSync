@@ -1,0 +1,67 @@
+﻿<MudPaper Outlined Height="100%" Width="100%" Class="pa-4">
+    <MudTabs Centered Border Outlined>
+        <MudTabPanel Text="致谢">
+            <MudPaper Outlined Class="pa-4">
+                <MudText Typo="Typo.h6" Align="Align.Center" Color="Color.Primary" Style="font-weight:700">
+                    想对您说的话
+                </MudText>
+                <MudText Class="indent">
+                    您好！我是SerialSync的制作人Ouse，非常感谢您使用本软件，这是我使用 Blazor Hybrid 开发的第一个项目。通过这个串口调试工具，我希望能为您的开发工作提供一些便利。
+                </MudText>
+                <MudText Class="indent">
+
+                </MudText>
+            </MudPaper>
+        </MudTabPanel>
+        <MudTabPanel Text="技术栈">
+            <MudPaper Outlined Class="pa-4">
+                <MudText Typo="Typo.h6" Align="Align.Center" Color="Color.Primary" Style="font-weight:700">
+                    使用以下开源项目
+                </MudText>
+                <ul>
+                    <li>
+                        <div class="d-flex ">
+                        <MudText Typo="Typo.h6">骨架:Blazor Hybrid </MudText>
+                        <MudSpacer></MudSpacer>
+                        <MudLink Href="https://microsoft.com">
+                        <MudAvatar Square >
+                            <MudImage Src="images/Microsoft.png"></MudImage>
+                        </MudAvatar>
+                        </MudLink>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="d-flex ">
+                        <MudText Typo="Typo.h6">UI库:MudBlazor </MudText>
+                        <MudSpacer></MudSpacer>
+                        <MudAvatar Square>
+                            <MudImage Src="images/Microsoft.png"></MudImage>
+                        </MudAvatar>
+                        </div>
+                    </li>
+                    <li>
+                        <MudText Typo="Typo.h6">日志系统:NLog</MudText>
+                    </li>
+                    <li>
+                        <MudText Typo="Typo.h6">工具:Blazor Animate</MudText>
+                    </li>
+                    <li>
+                        <MudText Typo="Typo.h6">工具:Toolbelt.Blazor.SplitContainer</MudText>
+                    </li>
+                </ul>
+            </MudPaper>
+        </MudTabPanel>
+    </MudTabs>
+
+</MudPaper>
+
+<style>
+    .indent {
+        text-indent: 2em;
+    }
+</style>
+
+@code {
+    [CascadingParameter]
+    private MudDialog MudDialog { get; set; } = null!;
+}

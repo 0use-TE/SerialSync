@@ -11,7 +11,12 @@
         @foreach (var item in logs)
         {
             <MudText Typo="Typo.subtitle2">
-                @item
+                @{
+                    var (prefix, level, message) = ParseLog(item);
+                }
+                <span>@prefix</span>
+                <MudText Inline="true" Color="@GetColor(level)">[@level]</MudText>
+                <span>@message</span>
             </MudText>
         }
     </MudPaper>
@@ -24,7 +29,33 @@
     {
         await InitializeLogReader();
     }
+    // 解析日志字符串
+    private (string prefix, string level, string message) ParseLog(string log)
+    {
+        // 示例日志: "2025-03-21 16:34:12.1214 [INFO] 开始监控内存日志"
+        int levelStart = log.IndexOf('[');
+        int levelEnd = log.IndexOf(']');
+        if (levelStart != -1 && levelEnd != -1 && levelEnd > levelStart)
+        {
+            string prefix = log.Substring(0, levelStart); // "2025-03-21 16:34:12.1214 "
+            string level = log.Substring(levelStart + 1, levelEnd - levelStart - 1); // "INFO"
+            string message = log.Substring(levelEnd + 1).Trim(); // " 开始监控内存日志"
+            return (prefix, level, message);
+        }
+        return (log, "", ""); 
+    }
 
+    private Color GetColor(string level)
+    {
+        return level.ToUpper() switch
+        {
+            "INFO" => Color.Success,  // 绿色
+            "ERROR" => Color.Error,   // 红色
+            "WARN" => Color.Warning,  // 黄色
+            "DEBUG" => Color.Info,    // 蓝色
+            _ => Color.Default        // 默认颜色
+        };
+    }
     private async Task InitializeLogReader()
     {
         string dateStr = DateTime.Now.ToString("yyyyMMdd");

@@ -1,7 +1,10 @@
 ﻿@inject ISnackbar Snackbar
 @inject ILogger<SerialPortSetting> Logger
-<MudPaper Outlined Width="100%" Height="100%" Class="pa-1 my-1" >
-	<EditForm Model="SerialPort"  style="width:100%;height: 100%;min-height:100%" classlass="pa-1" OnValidSubmit="Commit">
+<div class="pa-1">
+
+<MudPaper Outlined Width="100%" Height="100%" Class="pa-1  d-flex flex-column" >
+		<div style="flex-grow: 1; width: 100%; overflow-y: auto;">
+	<EditForm Model="SerialPort"  style="width:100%;height:100%; " class="pa-1" OnValidSubmit="Commit">
 		<div class="d-flex justify-center align-center">
 			<MudTooltip Text="请设置您的串口!" Arrow Color="Color.Secondary" Class="" >
 				<MudText Align="Align.Center" Typo="Typo.h6" Color="Color.Primary" Style="font-weight:600">设置串口</MudText>
@@ -41,13 +44,16 @@
 				<MudSelectItem Value="item">@item</MudSelectItem>
 			}
 		</MudSelect>
+				<div class="d-flex">
+					<MudButton ButtonType="ButtonType.Submit" Class="ml-auto" Variant="Variant.Outlined" Color="Color.Primary">@(SerialPort.IsOpen ? "断开" : "连接")</MudButton>
+				</div>
 		<MudSwitch @bind-Value=SerialPort.DtrEnable Label="Dtr" Color="Color.Success" ></MudSwitch>
 		<MudSwitch @bind-Value=SerialPort.RtsEnable Label="Rts" Color="Color.Secondary"></MudSwitch>
-		<div class="d-flex">
-			<MudButton ButtonType="ButtonType.Submit" Class="ml-auto" Variant="Variant.Outlined" Color="Color.Primary">@(SerialPort.IsOpen?"断开":"连接")</MudButton>
-		</div>
+
 	</EditForm>
+</div>
 </MudPaper>
+</div>
 @code
 {
 	private MauiSerialPort SerialPort { get; set; } = new MauiSerialPort();
@@ -96,6 +102,7 @@
 			catch
 			{
 				Snackbar.Add("连接失败,请检查相关设置!", Severity.Error);
+				Logger.LogError("连接失败!");
 			}
 		}
 	}
