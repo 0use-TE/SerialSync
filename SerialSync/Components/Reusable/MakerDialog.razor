@@ -1,59 +1,85 @@
 ﻿<MudPaper Outlined Height="100%" Width="100%" Class="pa-4">
     <MudTabs Centered Border Outlined>
-        <MudTabPanel Text="致谢">
+        <MudTabPanel Text="致谢" Style="font-weight:600">
             <MudPaper Outlined Class="pa-4">
-                <MudText Typo="Typo.h6" Align="Align.Center" Color="Color.Primary" Style="font-weight:700">
-                    想对您说的话
+                <MudText Align="Align.Center" Typo="Typo.h6" Color="Color.Primary" Style="font-weight:600">致谢“串”粉们</MudText>
+                <MudDivider></MudDivider>
+                <div class="pa-2">
+                 <MudText Class="indent">
+                     您好！我是SerialSync的制作人Ouse 😊，非常感谢您对SerialSync的支持和使用，您的支持是我最大的动力！❤️❤️❤️ 
+                 </MudText>
+                    <br />
+                <MudText Class="indent">这款软件为让广大嵌入式友友们能够更舒服的“调教”串口而诞生！市面上有不少这样的软件，但是SerialSync与众不同，她拥有着华丽的外观，流畅的操作等等优点，
+                    总的来说，她真的很漂亮！我相信这会是您使用过的串口调试软件中体验最好的那个👍。
                 </MudText>
+                    <br />
                 <MudText Class="indent">
-                    您好！我是SerialSync的制作人Ouse，非常感谢您使用本软件，这是我使用 Blazor Hybrid 开发的第一个项目。通过这个串口调试工具，我希望能为您的开发工作提供一些便利。
+                    还有一件让人兴奋的事情，那就是本项目是开源的！这意味着您可以访问并拓展该项目的全部源代码，去查看该项目的实现细节！如果您有任何问题，请联系我，让我们
+                    一起去为开源社区贡献自己的力量。(●'◡'●)
                 </MudText>
-                <MudText Class="indent">
-
-                </MudText>
+                </div>
+                <br />
+                <br />
+                <div class="d-flex">
+                    <div class="ml-auto">
+                        <MudButton Variant=Variant.Outlined Class="button" Href="" Color="Color.Primary">Gitee</MudButton>
+                        <MudButton Variant=Variant.Outlined Class="button" Href="https://github.com/0use-TE/SerialSync" Color="Color.Secondary">GitHub</MudButton>
+                        <MudButton Variant=Variant.Outlined Class="button" Href="https://tegamecompany.com" Color="Color.Info">Ouse的网站</MudButton>
+                    </div>
+                </div>
             </MudPaper>
         </MudTabPanel>
-        <MudTabPanel Text="技术栈">
+        <MudTabPanel Text="技术栈" Style="font-weight:600">
             <MudPaper Outlined Class="pa-4">
-                <MudText Typo="Typo.h6" Align="Align.Center" Color="Color.Primary" Style="font-weight:700">
-                    使用以下开源项目
-                </MudText>
-                <ul>
-                    <li>
-                        <div class="d-flex ">
-                        <MudText Typo="Typo.h6">骨架:Blazor Hybrid </MudText>
-                        <MudSpacer></MudSpacer>
-                        <MudLink Href="https://microsoft.com">
-                        <MudAvatar Square >
-                            <MudImage Src="images/Microsoft.png"></MudImage>
-                        </MudAvatar>
+                <MudText Align="Align.Center" Typo="Typo.h6" Color="Color.Primary" Style="font-weight:600">项目名: 串串烧 (SerialSync)</MudText>
+                <MudDivider></MudDivider>
+                <MudText Align="Align.Center" Color="Color.Primary" Style="font-weight:400" Typo="Typo.subtitle1">该项目的诞生离不开开源社区的支持</MudText>
+                <MudText Align="Align.Center" Color="Color.Secondary" Style="font-weight:400" Typo="Typo.subtitle2">感谢以下团队和开发者的开源</MudText>
+                <MudDivider></MudDivider>
+                <div class="d-flex flex-column">
+                    <div class="flex-column d-flex">
+                        <MudLink Style="font-weight:400;text-align:center" Class="button" Color="Color.Primary" Href="https://learn.microsoft.com/zh-cn/aspnet/core/blazor/hybrid/?view=aspnetcore-9.0">Blazor Hybrid:</MudLink>
+                        <MudText>
+                            这是由全球最厉害的软件公司—
+                            <MudLink Color="Color.Secondary" Class="button" Href="Microsoft">微软(Microsoft)</MudLink>
+                            开发的一个使用前端开发桌面软件的框架
+                        </MudText>
+                    </div>
+                    <MudDivider />
+                    <div class="flex-column d-flex">
+                        <MudLink Style="font-weight:400;text-align:center" Color="Color.Primary" Class="button" Href="https://mudblazor.com/">
+                       MudBlazor
                         </MudLink>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="d-flex ">
-                        <MudText Typo="Typo.h6">UI库:MudBlazor </MudText>
-                        <MudSpacer></MudSpacer>
-                        <MudAvatar Square>
-                            <MudImage Src="images/Microsoft.png"></MudImage>
-                        </MudAvatar>
-                        </div>
-                    </li>
-                    <li>
-                        <MudText Typo="Typo.h6">日志系统:NLog</MudText>
-                    </li>
-                    <li>
-                        <MudText Typo="Typo.h6">工具:Blazor Animate</MudText>
-                    </li>
-                    <li>
-                        <MudText Typo="Typo.h6">工具:Toolbelt.Blazor.SplitContainer</MudText>
-                    </li>
-                </ul>
+                        <MudText>
+                            一个强大的 Blazor 组件库，提供丰富的 UI 元素和工具。<MudText Inline Color="Color.Info">(俺目前也正在为这个项目做贡献哦)</MudText>。
+                        </MudText>
+                    </div>
+                    <MudDivider />
+                    <div class="flex-column d-flex">
+                        <MudLink Style="font-weight:400;text-align:center" Class="button" Color="Color.Primary" Href="https://jsakamoto.github.io/Toolbelt.Blazor.SplitContainer/">Blazor.SplitContainer</MudLink>
+                        <MudText>
+                            用于在 Blazor 中实现可分割容器布局的组件。
+                        </MudText>
+                    </div>
+                    <MudDivider />
+                    <div class="flex-column d-flex">
+                        <MudLink Style="font-weight:400;text-align:center" Class="button" Color="Color.Primary" Href="https://nlog-project.org/">NLog</MudLink>
+                        <MudText>
+                            一个灵活且强大的日志记录框架，适用于多种 .NET 应用。
+                        </MudText>
+                    </div>
+                    <MudDivider />
+                    <div class="flex-column d-flex">
+                        <MudLink  Style="font-weight:400;text-align:center" Class="button" Color="Color.Primary" Href="https://github.com/mikoskinen/Blazor.Animate">BlazorAnimate</MudLink>
+                        <MudText>
+                            为 Blazor 应用添加动画效果的库，提升用户体验。
+                        </MudText>
+                    </div>
+                </div>
             </MudPaper>
-        </MudTabPanel>
-    </MudTabs>
-
-</MudPaper>
+            </MudTabPanel>
+        </MudTabs>
+    </MudPaper>
 
 <style>
     .indent {

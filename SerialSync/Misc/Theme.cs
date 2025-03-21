@@ -135,16 +135,16 @@ The Default Theme for MudBlazor
 			},
 			Typography = new Typography()
 			{
-				Default = new DefaultTypography
-				{
-					FontFamily = ["Roboto", "Helvetica", "Arial", "sans-serif"],
-					FontWeight = "400",
-					FontSize = ".875rem",
-					LineHeight = "1.43",
-					LetterSpacing = ".01071em",
-					TextTransform = "none",
-				},
-				H1 = new H1Typography
+                Default = new DefaultTypography
+                {
+                    FontFamily = ["Microsoft JhengHei", "微软雅黑", "SimHei", "Arial", "sans-serif"],
+                    FontWeight = "400",
+                    FontSize = ".875rem",
+                    LineHeight = "1.43",
+                    LetterSpacing = ".01071em",
+                    TextTransform = "none",
+                },
+                H1 = new H1Typography
 				{
 					FontWeight = "300",
 					FontSize = "6rem",

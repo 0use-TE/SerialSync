@@ -1,58 +1,58 @@
-﻿@inject ISnackbar Snackbar
+﻿@using System.Diagnostics
+@inject ISnackbar Snackbar
 @inject ILogger<SerialPortSetting> Logger
+@implements IDisposable
 <div class="pa-1">
 
-<MudPaper Outlined Width="100%" Height="100%" Class="pa-1  d-flex flex-column" >
+	<MudPaper Outlined Width="100%" Height="100%" Class="pa-1  d-flex flex-column" >
 		<div style="flex-grow: 1; width: 100%; overflow-y: auto;">
-	<EditForm Model="SerialPort"  style="width:100%;height:100%; " class="pa-1" OnValidSubmit="Commit">
-		<div class="d-flex justify-center align-center">
-			<MudTooltip Text="请设置您的串口!" Arrow Color="Color.Secondary" Class="" >
-				<MudText Align="Align.Center" Typo="Typo.h6" Color="Color.Primary" Style="font-weight:600">设置串口</MudText>
-			</MudTooltip>
-			<MudTooltip Text="刷新" >
-				<MudIconButton Icon="@Icons.Material.Outlined.Refresh" OnClick="@(()=>Refresh(true))"  Color="Color.Info" Class="button"></MudIconButton>
-			</MudTooltip>
-		</div>
-		<MudSelect Label="串口名称" @bind-Value=SerialPort.PortName FullWidth Variant="Variant.Outlined" Dense OnClick="@(() => Refresh(false))">
-			@foreach(var item in names)
-			{
-				<MudSelectItem  Value="item">@item</MudSelectItem>
-			}
-		</MudSelect>
-		<MudSelect  Label="波特率" @bind-Value=SerialPort.BaudRate FullWidth Variant="Variant.Outlined" Dense>
-			@foreach (var item in  commonBaudRates)
-			{
-				<MudSelectItem Value="item">@item</MudSelectItem>
-			}
-		</MudSelect>
-
-		<MudSelect Label="奇偶校验" @bind-Value="SerialPort.Parity" FullWidth Variant="Variant.Outlined" Dense>
-			@foreach (var item in Enum.GetValues(typeof(Parity)).Cast<Parity>())
-			{
-				<MudSelectItem Value="item">@item</MudSelectItem>
-			}
-		</MudSelect>
-		<MudSelect Label="数据位数" @bind-Value="SerialPort.DataBits" FullWidth Variant="Variant.Outlined" Dense>
-			@foreach (var item in Enumerable.Range(5,4))
-			{
-				<MudSelectItem Value="item">@item</MudSelectItem>
-			}
-		</MudSelect>
-		<MudSelect Label="停止位" @bind-Value="SerialPort.StopBits" FullWidth Variant="Variant.Outlined" Dense>
-			@foreach (var item in Enum.GetValues(typeof(StopBits)).Cast<StopBits>())
-			{
-				<MudSelectItem Value="item">@item</MudSelectItem>
-			}
-		</MudSelect>
+			<EditForm Model="SerialPort"  style="width:100%;height:100%; " class="pa-1" OnValidSubmit="Commit">
+				<div class="d-flex justify-center align-center">
+					<MudTooltip Text="请设置您的串口!" Arrow Color="Color.Secondary" Class="" >
+						<MudText Align="Align.Center" Typo="Typo.h6" Color="Color.Primary" Style="font-weight:600">设置串口</MudText>
+					</MudTooltip>
+					<MudTooltip Text="刷新" >
+						<MudIconButton Icon="@Icons.Material.Outlined.Refresh" OnClick="@(()=>Refresh(true))"  Color="Color.Info" Class="button"></MudIconButton>
+					</MudTooltip>
+				</div>
+				<MudSelect Label="串口名称" @bind-Value=SerialPort.PortName FullWidth Variant="Variant.Outlined" Dense OnOpen="@(() => Refresh(false))">
+					@foreach(var item in names)
+					{
+						<MudSelectItem  Value="item">@item</MudSelectItem>
+					}
+				</MudSelect>
+				<MudSelect  Label="波特率" @bind-Value=SerialPort.BaudRate FullWidth Variant="Variant.Outlined" Dense>
+					@foreach (var item in  commonBaudRates)
+					{
+						<MudSelectItem Value="item">@item</MudSelectItem>
+					}
+				</MudSelect>
+				<MudSelect Label="奇偶校验" @bind-Value="SerialPort.Parity" FullWidth Variant="Variant.Outlined" Dense>
+					@foreach (var item in Enum.GetValues(typeof(Parity)).Cast<Parity>())
+					{
+						<MudSelectItem Value="item">@item</MudSelectItem>
+					}
+				</MudSelect>
+				<MudSelect Label="数据位数" @bind-Value="SerialPort.DataBits" FullWidth Variant="Variant.Outlined" Dense>
+					@foreach (var item in Enumerable.Range(5,4))
+					{
+						<MudSelectItem Value="item">@item</MudSelectItem>
+					}
+				</MudSelect>
+				<MudSelect Label="停止位" @bind-Value="SerialPort.StopBits" FullWidth Variant="Variant.Outlined" Dense>
+					@foreach (var item in Enum.GetValues(typeof(StopBits)).Cast<StopBits>())
+					{
+						<MudSelectItem Value="item">@item</MudSelectItem>
+					}
+				</MudSelect>
 				<div class="d-flex">
 					<MudButton ButtonType="ButtonType.Submit" Class="ml-auto" Variant="Variant.Outlined" Color="Color.Primary">@(SerialPort.IsOpen ? "断开" : "连接")</MudButton>
 				</div>
-		<MudSwitch @bind-Value=SerialPort.DtrEnable Label="Dtr" Color="Color.Success" ></MudSwitch>
-		<MudSwitch @bind-Value=SerialPort.RtsEnable Label="Rts" Color="Color.Secondary"></MudSwitch>
-
-	</EditForm>
-</div>
-</MudPaper>
+				<MudSwitch @bind-Value=SerialPort.DtrEnable Label="Dtr" Color="Color.Success" ></MudSwitch>
+				<MudSwitch @bind-Value=SerialPort.RtsEnable Label="Rts" Color="Color.Secondary"></MudSwitch>
+			</EditForm>
+		</div>
+	</MudPaper>
 </div>
 @code
 {
@@ -61,7 +61,7 @@
 	private int[] commonBaudRates = { 300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 38400, 57600, 115200, 230400, 460800, 921600 };
 	protected override void OnInitialized()
 	{
-		SerialPort = Settings.MauiSerialPort;
+
 		var result = MauiSerialPort.GetPortNames();
 		if(result==null)
 			Snackbar.Add("未检测到串口,请插入设备并点击刷新!",Severity.Error);
@@ -70,9 +70,9 @@
 			Snackbar.Add("检测到串口,请选择您设备对用的串口!",Severity.Success);
 			names = result;
 		}
+		SerialPort = Settings.MauiSerialPort;
 		base.OnInitialized();
 	}
-
 	private async Task Commit()
 	{
 		if(SerialPort.IsOpen)
@@ -80,7 +80,6 @@
 			try
 			{
 				SerialPort.Close();
-				await Task.Delay(500);
 				Snackbar.Add("断开成功!", Severity.Success);
 				Logger.LogInformation("断开串口");
 			}
@@ -94,15 +93,16 @@
 		{
 			try
 			{
-				await	SerialPort.Open();
-				await Task.Delay(500);
+				//Debug.WriteLine(SerialPort.PortName);
+			//	Debug.WriteLine(Settings.MauiSerialPort.PortName);
+				await	 SerialPort.Open();
 				Snackbar.Add("连接成功!", Severity.Success);
 				Logger.LogInformation($"用户连接串口:{SerialPort.PortName}");
 			}
-			catch
+			catch(Exception ex)
 			{
-				Snackbar.Add("连接失败,请检查相关设置!", Severity.Error);
-				Logger.LogError("连接失败!");
+				Snackbar.Add("连接失败,已刷新数据!", Severity.Error);
+				Logger.LogError("连接失败!"+ex.Message);
 			}
 		}
 	}
@@ -116,8 +116,12 @@
 		else
 		{
 			if(needShow)
-			Snackbar.Add("检测到串口,请选择您设备对用的串口!", Severity.Success);
+				Snackbar.Add("检测到串口,请选择您设备对用的串口!", Severity.Success);
 			names = result;
 		}
 	}
+	void IDisposable.Dispose()
+	{
+		//Debug.WriteLine("关闭");
+    }
 }

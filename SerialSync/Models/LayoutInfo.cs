@@ -25,7 +25,7 @@ namespace SerialSync.Models
         public static void SaveLayoutInfo(LayoutInfo layoutInfo)
         {
             if (layoutInfo == null) return;
-            Debug.WriteLine(layoutInfo.FirstPane);
+           // Debug.WriteLine(layoutInfo.FirstPane);
 
             Preferences.Set("LogIsRight", layoutInfo.LogIsRight);
             Preferences.Set("UserSettingIsTop", layoutInfo.UserSettingIsTop);

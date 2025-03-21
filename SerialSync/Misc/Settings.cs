@@ -10,13 +10,13 @@ namespace SerialSync.Misc
 {
 	public static class Settings
 	{
-		public static DialogOptions DialogOptions { get; set; } = new DialogOptions
+		public static DialogOptions DialogOptions { get; private set; } = new DialogOptions
 		{
 			FullWidth = true,
 			CloseButton = true,
 			NoHeader = true
 		};
-        public  static MauiSerialPort MauiSerialPort { get; set; } = new MauiSerialPort();
+        public  static MauiSerialPort MauiSerialPort { get;private set; } = new MauiSerialPort();
         public static List<SendModel> SendedMsg { get; set; } = new List<SendModel>();
         public  static List<ReciveModel> ReceivedMsg { get; set; } = new List<ReciveModel>();
 		public static string LogPath { get; set; }=Path.Combine(FileSystem.AppDataDirectory, "SerialSync", "log-.txt");

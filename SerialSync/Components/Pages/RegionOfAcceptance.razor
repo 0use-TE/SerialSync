@@ -25,7 +25,7 @@
 
     protected override void OnInitialized()
     {
-        Settings.MauiSerialPort = MauiSerialPort;
+        MauiSerialPort = Settings.MauiSerialPort;
         timer = new Timer(GetMsg, null, 0, 1000); // 立即开始，每 100ms 检查
     }
     private void GetMsg(object? state)

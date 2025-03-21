@@ -31,11 +31,11 @@
                     <MudTextField  Clearable ClearIcon="@Icons.Material.Outlined.DeleteOutline" @bind-value=Text Lines="TextLines"  Variant="Variant.Outlined" Label="请输入要发送的内容">
                     </MudTextField>
                     <div class="ml-auto">
-                    <MudTooltip Arrow Color="Color.Secondary" Text="发送到设备!" >
-                    <MudButton Class="" Color="Color.Primary"  Variant="Variant.Outlined" OnClick="Send">
-                        发送
-                    </MudButton>
-                    </MudTooltip>
+                        <MudTooltip Arrow Color="Color.Secondary" Text="发送到设备!" >
+                            <MudButton Class="" Color="Color.Primary"  Variant="Variant.Outlined" OnClick="Send">
+                                发送
+                            </MudButton>
+                        </MudTooltip>
                     </div>
                 </div>
             </SecondPane>
@@ -63,6 +63,7 @@
     public void Send()
     {
         var serialPort = Settings.MauiSerialPort;
+       // Debug.WriteLine(serialPort.PortName);
         if(serialPort.IsOpen)
         {
             if (string.IsNullOrEmpty(Text))
@@ -100,9 +101,9 @@
     private async Task SecondPaneSize()
     {
         var result = await GetSecondPaneHeight();
-        Debug.WriteLine(result);
+     //   Debug.WriteLine(result);
         TextLines = result / 30;
-        Debug.WriteLine(TextLines);
+      //  Debug.WriteLine(TextLines);
         await InvokeAsync(StateHasChanged);
     }
     private async Task<int> GetSecondPaneHeight()

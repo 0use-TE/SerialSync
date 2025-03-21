@@ -58,6 +58,14 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Compile Remove="Services\**" />
+      <Content Remove="Services\**" />
+      <EmbeddedResource Remove="Services\**" />
+      <MauiXaml Remove="Services\**" />
+      <None Remove="Services\**" />
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="BlazorAnimate" Version="3.0.0" />
         <PackageReference Include="ElegantSeries.MauiSerialPort" Version="0.0.2" />
         <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
@@ -70,7 +78,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Services\" />
+      <PRIResource Remove="Services\**" />
     </ItemGroup>
 
 </Project>
