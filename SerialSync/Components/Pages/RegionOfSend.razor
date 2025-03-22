@@ -10,7 +10,7 @@
             <FirstPane>
                 <div class="d-flex flex-column align-center  " style="width:100%;height:100%">
                     <MudText Typo="Typo.h6" Align="Align.Center" Color="Color.Primary" Style="font-weight:600">历史</MudText>    
-                    @foreach (var item in Settings.SendedMsg)
+                    @foreach (var item in Settings.SendedMsg.ToList())
                     {
                         <MudDivider Class="" Style="flex-grow:0"></MudDivider>
                         <MudStack Row   AlignItems="AlignItems.End" Style="width:100%;height:auto " Class="px-3">
@@ -50,6 +50,8 @@
     private string? Text { get; set; }
     private int TextLines { get; set; } = 5;
     private ElementReference container;
+    private readonly object _lock = new object(); // 用于同步的锁对象
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if(firstRender)
@@ -63,7 +65,7 @@
     public void Send()
     {
         var serialPort = Settings.SerialPort;
-       // Debug.WriteLine(serialPort.PortName);
+        // Debug.WriteLine(serialPort.PortName);
         if(serialPort.IsOpen)
         {
             if (string.IsNullOrEmpty(Text))
@@ -82,7 +84,10 @@
                             SendMsg = Text,
                             Span = DateTime.Now.TimeOfDay
                         };
+                    lock(_lock)
+                    {
                     Settings.SendedMsg.Add(sendModel);
+                    }
                     Logger.LogInformation($"发送了内容:{Text}");
                 }
                 catch (Exception e)

@@ -1,56 +1,62 @@
 ﻿@using System.Text
 @using System.Diagnostics
-<div  style="width:100%;height:100%">
-        <div style=" height: 100%; overflow-y: auto;">
-    <MudPaper Class="pa-2" Width="100%" Height="100%" Outlined>
-        <MudText Align="Align.Center" Typo="Typo.h6" Color="Color.Primary" Style="font-weight:600">接收区</MudText>
-        <MudDivider></MudDivider>
-        @foreach (var item in Settings.ReceivedMsg)
-        {
-            Debug.WriteLine(item.RecivedMsg);
-            @if (item.RecivedMsg == "\n"||item.RecivedMsg=="\r"||item.RecivedMsg=="\r\n")
+<div style="width:100%;height:100%;">
+    <div style="height:100%;overflow-y:auto;">
+        <MudPaper Class="pa-2"  Width="100%" Height="100%" Outlined>
+            <MudText Align="Align.Center" Typo="Typo.h6" Color="Color.Primary" Style="font-weight:600">接收区</MudText>
+            <MudDivider></MudDivider>
+            @foreach (var item in Settings.ReceivedMsg.ToList()) // 使用 ToList 创建快照
             {
-                <br />
-                <MudDivider></MudDivider>
-            }
-            else
-            {
+                Debug.WriteLine(item.RecivedMsg);
+                @if (item.RecivedMsg == "\n" || item.RecivedMsg == "\r" || item.RecivedMsg == "\r\n")
+                {
+                    <br />
+                    <MudDivider></MudDivider>
+                }
+                else
+                {
                     <MudTooltip Arrow Text=@($"接收时间:{item.Span.ToString(@"hh\:mm\:ss")}") Color="Color.Primary">
-            <MudText @key=item Inline Typo="Typo.subtitle2">@item.RecivedMsg</MudText>
-                </MudTooltip>
+                        <MudText @key=item Inline Typo="Typo.subtitle2">@item.RecivedMsg</MudText>
+                    </MudTooltip>
+                }
             }
-        }
-    </MudPaper>
-        </div>
+        </MudPaper>
+    </div>
 </div>
 
 @code {
-    private SerialPort  SerialPort { get; set; } = new SerialPort();
+    private SerialPort SerialPort { get; set; } = new SerialPort();
+    private readonly object _lock = new object(); // 用于同步的锁对象
 
     protected override void OnInitialized()
     {
         SerialPort = Settings.SerialPort;
         GetMsg();
     }
+
     private void GetMsg()
     {
         SerialPort = Settings.SerialPort;
         SerialPort.DataReceived += SerialPort_DataReceived;
     }
+
     private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
     {
         try
         {
             if (SerialPort.IsOpen && SerialPort.BytesToRead > 0)
             {
-                string receivedData = SerialPort.ReadExisting(); 
+                string receivedData = SerialPort.ReadExisting();
                 var item = new ReciveModel
                     {
                         RecivedMsg = receivedData,
-                        Span = DateTime.Now.TimeOfDay // 当前时间
+                        Span = DateTime.Now.TimeOfDay
                     };
-                Settings.ReceivedMsg.Add(item); 
-                InvokeAsync(StateHasChanged); 
+                lock (_lock) // 加锁
+                {
+                    Settings.ReceivedMsg.Add(item);
+                }
+                InvokeAsync(StateHasChanged); // 通知 UI 更新
             }
         }
         catch (Exception ex)
@@ -58,8 +64,14 @@
             Console.WriteLine($"读取失败: {ex.Message}");
         }
     }
+
     public void Dispose()
     {
+        if (SerialPort != null)
+        {
+            SerialPort.DataReceived -= SerialPort_DataReceived;
+            SerialPort.Dispose();
+        }
     }
 }
 
