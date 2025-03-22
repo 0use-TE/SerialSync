@@ -16,6 +16,7 @@
 					<MudButton Class="button" OnClick="OpenLogFile">日志</MudButton>
 					<MudButton Class="button" OnClick="MainLayout.ToggleTheme">明暗</MudButton>
 				</MudButtonGroup>
+				<MudButton Class="button" OnClick="ShowTutorial">新手须知</MudButton>
 				<MudButton Class="button" OnClick="ShowMaker">开发者的....</MudButton>
 			</MudButtonGroup>
 		</div>
@@ -66,5 +67,6 @@
 			Logger.LogError("打开日志目录失败!"+ex.Message);
 		}
 	}
-	public async Task  ShowMaker()=>await DialogService.ShowAsync<MakerDialog>("制作人",options:Settings.DialogOptions);
+	public async Task ShowMaker() => await DialogService.ShowAsync<MakerDialog>("制作人", options: Settings.DialogOptions);
+	public async Task ShowTutorial() => await DialogService.ShowAsync<NeedSeeDialog>("教程", options: Settings.DialogOptions);
 }

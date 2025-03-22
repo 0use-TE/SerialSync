@@ -25,9 +25,9 @@
     private List<string> logs = new List<string>();
     private string currentLogPath = string.Empty;
     private Timer? timer;
-    protected override async Task OnInitializedAsync()
+    protected override  void OnInitialized()
     {
-        await InitializeLogReader();
+        InitializeLogReader();
     }
     // 解析日志字符串
     private (string prefix, string level, string message) ParseLog(string log)
@@ -56,11 +56,11 @@
             _ => Color.Default        // 默认颜色
         };
     }
-    private async Task InitializeLogReader()
+    private void InitializeLogReader()
     {
         string dateStr = DateTime.Now.ToString("yyyyMMdd");
-        currentLogPath = Path.Combine(FileSystem.AppDataDirectory, "SerialSync", $"log-{dateStr}.txt");
-        await Read();
+        //currentLogPath = Path.Combine(FileSystem.AppDataDirectory, "SerialSync", $"log-{dateStr}.txt");
+        //await Read();
 
         logs = MemoryTarget.Logs.ToList();
         timer = new Timer(CheckForUpdates, null, 1000, 1000);

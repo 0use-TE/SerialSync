@@ -62,7 +62,7 @@
 
     public void Send()
     {
-        var serialPort = Settings.MauiSerialPort;
+        var serialPort = Settings.SerialPort;
        // Debug.WriteLine(serialPort.PortName);
         if(serialPort.IsOpen)
         {
@@ -76,8 +76,7 @@
                 try
                 {
                     Snackbar.Add("发送成功!", Severity.Success);
-                    var content = Encoding.UTF8.GetBytes(Text);
-                    serialPort.Write(content);
+                    serialPort.Write(Text);
                     var sendModel = new SendModel
                         {
                             SendMsg = Text,

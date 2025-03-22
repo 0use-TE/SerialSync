@@ -1,7 +1,7 @@
-﻿using ElegantSeries;
-using MudBlazor;
+﻿using MudBlazor;
 using System;
 using System.Collections.Generic;
+using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,7 +16,7 @@ namespace SerialSync.Misc
 			CloseButton = true,
 			NoHeader = true
 		};
-        public  static MauiSerialPort MauiSerialPort { get;private set; } = new MauiSerialPort();
+        public  static SerialPort SerialPort { get;private set; } = new SerialPort();
         public static List<SendModel> SendedMsg { get; set; } = new List<SendModel>();
         public  static List<ReciveModel> ReceivedMsg { get; set; } = new List<ReciveModel>();
 		public static string LogPath { get; set; }=Path.Combine(FileSystem.AppDataDirectory, "SerialSync", "log-.txt");

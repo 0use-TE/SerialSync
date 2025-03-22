@@ -46,23 +46,30 @@
 					}
 				</MudSelect>
 				<div class="d-flex">
-					<MudButton ButtonType="ButtonType.Submit" Class="ml-auto" Variant="Variant.Outlined" Color="Color.Primary">@(SerialPort.IsOpen ? "断开" : "连接")</MudButton>
+					<MudButton ButtonType="ButtonType.Submit" Class="ml-auto button" Variant="Variant.Outlined" Color="Color.Primary">@(SerialPort.IsOpen ? "断开" : "连接")</MudButton>
 				</div>
-				<MudSwitch @bind-Value=SerialPort.DtrEnable Label="Dtr" Color="Color.Success" ></MudSwitch>
+                @if (SerialPort.IsOpen)
+                {
+					<MudTooltip Text="数据终端就绪(DataTerminalReady)" Color="Color.Warning">
+				<MudSwitch  @bind-Value=SerialPort.DtrEnable Label="Dtr" Color="Color.Success" ></MudSwitch>
+					</MudTooltip>	
+					<MudTooltip Text="请求发送信号(RqquestToSend)" Color="Color.Warning">
 				<MudSwitch @bind-Value=SerialPort.RtsEnable Label="Rts" Color="Color.Secondary"></MudSwitch>
+					</MudTooltip>
+                }
 			</EditForm>
 		</div>
 	</MudPaper>
 </div>
 @code
 {
-	private MauiSerialPort SerialPort { get; set; } = new MauiSerialPort();
+	private SerialPort SerialPort { get; set; } = new SerialPort();
 	private string[] names= { "暂未检测到串口"};
 	private int[] commonBaudRates = { 300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 38400, 57600, 115200, 230400, 460800, 921600 };
 	protected override void OnInitialized()
 	{
 
-		var result = MauiSerialPort.GetPortNames();
+		var result = SerialPort.GetPortNames();
 		if(result==null)
 			Snackbar.Add("未检测到串口,请插入设备并点击刷新!",Severity.Error);
 		else
@@ -70,10 +77,10 @@
 			Snackbar.Add("检测到串口,请选择您设备对用的串口!",Severity.Success);
 			names = result;
 		}
-		SerialPort = Settings.MauiSerialPort;
+		SerialPort = Settings.SerialPort;
 		base.OnInitialized();
 	}
-	private async Task Commit()
+	private void Commit()
 	{
 		if(SerialPort.IsOpen)
 		{
@@ -94,8 +101,8 @@
 			try
 			{
 				//Debug.WriteLine(SerialPort.PortName);
-			//	Debug.WriteLine(Settings.MauiSerialPort.PortName);
-				await	 SerialPort.Open();
+			//	Debug.WriteLine(Settings.SerialPort.PortName);
+					 SerialPort.Open();
 				Snackbar.Add("连接成功!", Severity.Success);
 				Logger.LogInformation($"用户连接串口:{SerialPort.PortName}");
 			}
@@ -108,7 +115,7 @@
 	}
 	private void Refresh(bool needShow)
 	{
-		var result = MauiSerialPort.GetPortNames();
+		var result = SerialPort.GetPortNames();
 		if (result == null)
 		{
 			Snackbar.Add("未检测到串口,请插入设备并点击刷新!", Severity.Error);

@@ -1,0 +1,37 @@
+﻿<div class="pa-2">
+
+<MudPaper Class="pa-4 " Width="100%" Height="100%" Outlined>
+    <MudText Align="Align.Center" Color="Color.Secondary" Style="font-weight:600">串口小知识</MudText>
+    <MudText Typo="Typo.body1" Class="mt-2">
+        <b>串口参数简介</b><br />
+        串口（Serial Port）是计算机与外部设备通信的重要接口。正确配置串口参数可以确保数据传输的稳定性和准确性。以下是串口常见的几个参数及含义：<br /><br />
+
+        <b>1. 波特率 (Baud Rate)</b><br />
+        定义每秒传输的比特数（如 9600、115200），表示通信速度。双方波特率必须一致，否则无法正常通信。通常由设备说明书指定，默认常用 115200。<br /><br />
+
+        <b>2. 数据位 (Data Bits)</b><br />
+        每次传输的数据位数，通常为 5、6、7 或 8 位。现代设备多使用 8 位，表示一个完整字节。需与设备设置匹配。<br /><br />
+
+        <b>3. 停止位 (Stop Bits)</b><br />
+        数据帧结束时的标志位，通常为 1 或 2 位。1 位是默认设置，2 位用于特定场景，需根据设备要求配置。<br /><br />
+
+        <b>4. 校验位 (Parity)</b><br />
+        用于检测传输错误的机制，可选“无（None）”、“奇（Odd）”或“偶（Even）”。大多数现代应用选择“None”，简化配置。<br /><br />
+
+        <b>5. 流控制 (Flow Control)</b><br />
+        管理数据流的机制，可选“无（None）”、“硬件（RTS/CTS）”或“软件（XON/XOFF）”。一般默认“None”，适用于大多数场景。<br /><br />
+
+        <b>6. DTR (Data Terminal Ready)</b><br />
+        数据终端就绪信号，用于指示发送端设备已准备好通信。通常由计算机控制，可设置为高（启用）或低（禁用）。某些设备依赖 DTR 信号来判断是否开始传输数据。<br /><br />
+
+        <b>7. RTS (Request to Send)</b><br />
+        请求发送信号，用于硬件流控制。发送端通过 RTS 通知接收端“我要发数据了”，接收端通过 CTS（Clear to Send）回应“可以发”。RTS/CTS 配合使用，避免数据溢出。<br /><br />
+
+        <b>常见配置</b><br />
+        标准设置通常为：波特率 115200，数据位 8，停止位 1，校验位 None，流控制 None。此配置适用于大多数串口设备，但具体参数需参考设备文档。<br /><br />
+
+        <b>总结</b><br />
+        串口参数是通信的基础，配置时需确保发送端与接收端一致。通过合理设置，可以实现高效、稳定的数据传输。
+    </MudText>
+</MudPaper>
+</div>

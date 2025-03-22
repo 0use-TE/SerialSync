@@ -17,10 +17,10 @@ namespace SerialSync.Misc
 
             var fileTarget = new NLog.Targets.FileTarget("file")
             {
-                FileName = Path.Combine(FileSystem.AppDataDirectory, "SerialSync", "log-.txt"),
-                ArchiveFileName = "${basedir}/archives/log-.txt",
+                FileName = Path.Combine(FileSystem.AppDataDirectory, "SerialSync", "log-${date:format=yyyyMMdd}.txt"),
+                ArchiveFileName = Path.Combine(FileSystem.AppDataDirectory, "SerialSync", "archives", "log-${date:format=yyyyMMdd}.txt"),
                 ArchiveEvery = NLog.Targets.FileArchivePeriod.Day,
-                ArchiveNumbering = NLog.Targets.ArchiveNumberingMode.Rolling,
+                ArchiveNumbering = NLog.Targets.ArchiveNumberingMode.Date,
                 MaxArchiveFiles = 7,
                 Layout = "${longdate} [${level:uppercase=true}] ${message}${exception:format=tostring}"
             };
