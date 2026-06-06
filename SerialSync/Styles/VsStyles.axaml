@@ -1,0 +1,173 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <!-- VS tool window host -->
+  <Style Selector="UserControl.vs-panel">
+    <Setter Property="Background" Value="{DynamicResource VsBgBrush}" />
+  </Style>
+
+  <!-- Compact toolbar strip -->
+  <Style Selector="Border.vs-toolbar">
+    <Setter Property="Background" Value="{DynamicResource VsToolBarBgBrush}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource VsBorderSubtleBrush}" />
+    <Setter Property="BorderThickness" Value="0,0,0,1" />
+    <Setter Property="Padding" Value="6,4" />
+    <Setter Property="MinHeight" Value="32" />
+  </Style>
+
+  <!-- Flat icon/text toolbar button -->
+  <Style Selector="Button.vs-tool-btn">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Padding" Value="8,4" />
+    <Setter Property="MinHeight" Value="26" />
+    <Setter Property="Foreground" Value="{DynamicResource VsTextBrush}" />
+    <Setter Property="CornerRadius" Value="2" />
+  </Style>
+  <Style Selector="Button.vs-tool-btn:pointerover /template/ ContentPresenter">
+    <Setter Property="Background" Value="#3E3E42" />
+  </Style>
+  <Style Selector="Button.vs-tool-btn:pressed /template/ ContentPresenter">
+    <Setter Property="Background" Value="#007ACC" />
+  </Style>
+
+  <!-- Primary action (Connect / Send) -->
+  <Style Selector="Button.vs-primary-btn">
+    <Setter Property="Background" Value="{DynamicResource VsAccentBrush}" />
+    <Setter Property="Foreground" Value="White" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Padding" Value="14,6" />
+    <Setter Property="MinHeight" Value="28" />
+    <Setter Property="CornerRadius" Value="2" />
+    <Setter Property="FontSize" Value="12" />
+  </Style>
+  <Style Selector="Button.vs-primary-btn:pointerover /template/ ContentPresenter">
+    <Setter Property="Background" Value="#1C97EA" />
+  </Style>
+  <Style Selector="Button.vs-primary-btn.vs-danger">
+    <Setter Property="Background" Value="#C72E2E" />
+  </Style>
+  <Style Selector="Button.vs-primary-btn.vs-danger:pointerover /template/ ContentPresenter">
+    <Setter Property="Background" Value="#E81123" />
+  </Style>
+
+  <!-- Code / terminal surface -->
+  <Style Selector="SelectableTextBlock.vs-code">
+    <Setter Property="Foreground" Value="{DynamicResource VsTextBrush}" />
+    <Setter Property="FontFamily" Value="{StaticResource VsMonoFont}" />
+    <Setter Property="FontSize" Value="13" />
+    <Setter Property="SelectionBrush" Value="#264F78" />
+    <Setter Property="SelectionForegroundBrush" Value="#FFFFFF" />
+  </Style>
+  <Style Selector="TextBox.vs-code">
+    <Setter Property="Foreground" Value="{DynamicResource VsTextBrush}" />
+    <Setter Property="FontFamily" Value="{StaticResource VsMonoFont}" />
+    <Setter Property="FontSize" Value="13" />
+    <Setter Property="Padding" Value="8,6" />
+    <Setter Property="AcceptsReturn" Value="True" />
+    <Setter Property="TextWrapping" Value="Wrap" />
+    <Setter Property="SelectionBrush" Value="#264F78" />
+    <Setter Property="SelectionForegroundBrush" Value="#FFFFFF" />
+  </Style>
+  <Style Selector="TextBox.vs-code-readonly">
+    <Setter Property="CaretBrush" Value="Transparent" />
+  </Style>
+
+  <!-- Property grid row -->
+  <Style Selector="Grid.vs-form-row">
+    <Setter Property="Margin" Value="0,0,0,2" />
+    <Setter Property="MinHeight" Value="28" />
+  </Style>
+  <Style Selector="TextBlock.vs-form-label">
+    <Setter Property="Foreground" Value="{DynamicResource VsTextMutedBrush}" />
+    <Setter Property="FontSize" Value="12" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+    <Setter Property="Margin" Value="12,0,8,0" />
+    <Setter Property="MinWidth" Value="72" />
+  </Style>
+  <Style Selector="ComboBox.vs-form-input">
+    <Setter Property="MinHeight" Value="26" />
+    <Setter Property="FontSize" Value="12" />
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+  </Style>
+
+  <!-- Status bar -->
+  <Style Selector="Border.vs-statusbar">
+    <Setter Property="Background" Value="{DynamicResource VsStatusBarBgBrush}" />
+    <Setter Property="MinHeight" Value="24" />
+    <Setter Property="Padding" Value="8,0" />
+  </Style>
+  <Style Selector="TextBlock.vs-statusbar-text">
+    <Setter Property="Foreground" Value="{DynamicResource VsStatusBarTextBrush}" />
+    <Setter Property="FontSize" Value="12" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+  </Style>
+  <Style Selector="Button.vs-statusbar-link">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Padding" Value="4,0" />
+    <Setter Property="Cursor" Value="Hand" />
+  </Style>
+  <Style Selector="Button.vs-statusbar-link:pointerover">
+    <Setter Property="Opacity" Value="0.85" />
+  </Style>
+
+  <!-- History list -->
+  <Style Selector="ListBox.vs-history">
+    <Setter Property="Background" Value="{DynamicResource VsSidebarBgBrush}" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Padding" Value="0" />
+  </Style>
+  <Style Selector="ListBoxItem.vs-history-item">
+    <Setter Property="Padding" Value="8,4" />
+    <Setter Property="MinHeight" Value="28" />
+    <Setter Property="FontSize" Value="12" />
+    <Setter Property="FontFamily" Value="{StaticResource VsMonoFont}" />
+  </Style>
+  <Style Selector="ListBoxItem.vs-history-item:selected /template/ ContentPresenter">
+    <Setter Property="Background" Value="#094771" />
+  </Style>
+  <Style Selector="ListBoxItem.vs-history-item:pointerover /template/ ContentPresenter">
+    <Setter Property="Background" Value="#2A2D2E" />
+  </Style>
+
+  <!-- Log list -->
+  <Style Selector="ListBox.vs-log">
+    <Setter Property="Background" Value="{DynamicResource VsCodeBgBrush}" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="FontFamily" Value="{StaticResource VsMonoFont}" />
+    <Setter Property="FontSize" Value="12" />
+  </Style>
+
+  <!-- Title bar -->
+  <Style Selector="Border.vs-titlebar">
+    <Setter Property="Background" Value="{DynamicResource VsTitleBarBgBrush}" />
+    <Setter Property="MinHeight" Value="36" />
+    <Setter Property="Padding" Value="12,0" />
+  </Style>
+  <Style Selector="TextBlock.vs-titlebar-text">
+    <Setter Property="Foreground" Value="White" />
+    <Setter Property="FontSize" Value="13" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+  </Style>
+  <Style Selector="Button.vs-titlebar-btn">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Foreground" Value="White" />
+    <Setter Property="Padding" Value="8,4" />
+    <Setter Property="CornerRadius" Value="2" />
+  </Style>
+  <Style Selector="Button.vs-titlebar-btn:pointerover /template/ ContentPresenter">
+    <Setter Property="Background" Value="#1C97EA" />
+  </Style>
+
+  <!-- Search box in toolbar -->
+  <Style Selector="TextBox.vs-search">
+    <Setter Property="MinHeight" Value="24" />
+    <Setter Property="MinWidth" Value="160" />
+    <Setter Property="FontSize" Value="12" />
+    <Setter Property="Padding" Value="6,2" />
+    <Setter Property="CornerRadius" Value="2" />
+  </Style>
+
+</Styles>

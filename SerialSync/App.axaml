@@ -1,0 +1,142 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialIcons="using:Material.Icons.Avalonia"
+             xmlns:semi="https://irihi.tech/semi"
+             x:Class="SerialSync.App"
+             RequestedThemeVariant="Dark">
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Dark">
+          <Color x:Key="VsBg">#1E1E1E</Color>
+          <Color x:Key="VsSidebarBg">#252526</Color>
+          <Color x:Key="VsToolBarBg">#2D2D30</Color>
+          <Color x:Key="VsTitleBarBg">#007ACC</Color>
+          <Color x:Key="VsBorder">#3F3F46</Color>
+          <Color x:Key="VsBorderSubtle">#333337</Color>
+          <Color x:Key="VsText">#CCCCCC</Color>
+          <Color x:Key="VsTextMuted">#858585</Color>
+          <Color x:Key="VsAccent">#007ACC</Color>
+          <Color x:Key="VsAccentHover">#1C97EA</Color>
+          <Color x:Key="VsCodeBg">#1E1E1E</Color>
+          <Color x:Key="VsStatusBarBg">#007ACC</Color>
+          <Color x:Key="VsStatusBarText">#FFFFFF</Color>
+          <Color x:Key="VsConnected">#4EC9B0</Color>
+          <Color x:Key="VsDisconnected">#F48771</Color>
+          <SolidColorBrush x:Key="VsBgBrush" Color="{StaticResource VsBg}" />
+          <SolidColorBrush x:Key="VsSidebarBgBrush" Color="{StaticResource VsSidebarBg}" />
+          <SolidColorBrush x:Key="VsToolBarBgBrush" Color="{StaticResource VsToolBarBg}" />
+          <SolidColorBrush x:Key="VsTitleBarBgBrush" Color="{StaticResource VsTitleBarBg}" />
+          <SolidColorBrush x:Key="VsBorderBrush" Color="{StaticResource VsBorder}" />
+          <SolidColorBrush x:Key="VsBorderSubtleBrush" Color="{StaticResource VsBorderSubtle}" />
+          <SolidColorBrush x:Key="VsTextBrush" Color="{StaticResource VsText}" />
+          <SolidColorBrush x:Key="VsTextMutedBrush" Color="{StaticResource VsTextMuted}" />
+          <SolidColorBrush x:Key="VsAccentBrush" Color="{StaticResource VsAccent}" />
+          <SolidColorBrush x:Key="VsCodeBgBrush" Color="{StaticResource VsCodeBg}" />
+          <SolidColorBrush x:Key="VsStatusBarBgBrush" Color="{StaticResource VsStatusBarBg}" />
+          <SolidColorBrush x:Key="VsStatusBarTextBrush" Color="{StaticResource VsStatusBarText}" />
+          <SolidColorBrush x:Key="VsConnectedBrush" Color="{StaticResource VsConnected}" />
+          <SolidColorBrush x:Key="VsDisconnectedBrush" Color="{StaticResource VsDisconnected}" />
+          <!-- Semi 主题：全局禁用 TextBox / ComboBox 聚焦、悬停背景变化 -->
+          <SolidColorBrush x:Key="TextBoxDefaultBackground" Color="#252526" />
+          <SolidColorBrush x:Key="TextBoxPointeroverBackground" Color="#252526" />
+          <SolidColorBrush x:Key="TextBoxPressedBackground" Color="#252526" />
+          <SolidColorBrush x:Key="TextBoxBorderedDefaultBackground" Color="#252526" />
+          <SolidColorBrush x:Key="TextBoxBorderedPointeroverBackground" Color="#252526" />
+          <SolidColorBrush x:Key="TextBoxDefaultBorderBrush" Color="#333337" />
+          <SolidColorBrush x:Key="TextBoxPointeroverBorderBrush" Color="#333337" />
+          <SolidColorBrush x:Key="TextBoxFocusBorderBrush" Color="#333337" />
+          <SolidColorBrush x:Key="TextBoxBorderedDefaultBorderBrush" Color="#333337" />
+          <SolidColorBrush x:Key="TextBoxBorderedPointeroverBorderBrush" Color="#333337" />
+          <SolidColorBrush x:Key="ComboBoxSelectorBackground" Color="#252526" />
+          <SolidColorBrush x:Key="ComboBoxSelectorPointeroverBackground" Color="#252526" />
+          <SolidColorBrush x:Key="ComboBoxSelectorFocusBackground" Color="#252526" />
+          <SolidColorBrush x:Key="ComboBoxSelectorPressedBackground" Color="#252526" />
+          <SolidColorBrush x:Key="ComboBoxSelectorBorderedBackground" Color="#252526" />
+          <SolidColorBrush x:Key="ComboBoxSelectorBorderedPointeroverBackground" Color="#252526" />
+          <SolidColorBrush x:Key="ComboBoxSelectorBorderedFocusBackground" Color="#252526" />
+          <SolidColorBrush x:Key="ComboBoxSelectorBorderedPressedBackground" Color="#252526" />
+          <SolidColorBrush x:Key="ComboBoxSelectorBorderBrush" Color="#333337" />
+          <SolidColorBrush x:Key="ComboBoxSelectorPointeroverBorderBrush" Color="#333337" />
+          <SolidColorBrush x:Key="ComboBoxSelectorFocusBorderBrush" Color="#333337" />
+          <SolidColorBrush x:Key="ComboBoxSelectorPressedBorderBrush" Color="#333337" />
+          <SolidColorBrush x:Key="ComboBoxSelectorBorderedBorderBrush" Color="#333337" />
+          <SolidColorBrush x:Key="ComboBoxSelectorBorderedPointeroverBorderBrush" Color="#333337" />
+          <SolidColorBrush x:Key="ComboBoxSelectorBorderedFocusBorderBrush" Color="#333337" />
+          <SolidColorBrush x:Key="ComboBoxSelectorBorderedPressedBorderBrush" Color="#333337" />
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Light">
+          <Color x:Key="VsBg">#FFFFFF</Color>
+          <Color x:Key="VsSidebarBg">#F3F3F3</Color>
+          <Color x:Key="VsToolBarBg">#EEEEEE</Color>
+          <Color x:Key="VsTitleBarBg">#007ACC</Color>
+          <Color x:Key="VsBorder">#CCCEDB</Color>
+          <Color x:Key="VsBorderSubtle">#E6E6E6</Color>
+          <Color x:Key="VsText">#1E1E1E</Color>
+          <Color x:Key="VsTextMuted">#717171</Color>
+          <Color x:Key="VsAccent">#007ACC</Color>
+          <Color x:Key="VsAccentHover">#0062A3</Color>
+          <Color x:Key="VsCodeBg">#FFFFFF</Color>
+          <Color x:Key="VsStatusBarBg">#007ACC</Color>
+          <Color x:Key="VsStatusBarText">#FFFFFF</Color>
+          <Color x:Key="VsConnected">#16825D</Color>
+          <Color x:Key="VsDisconnected">#A1260D</Color>
+          <SolidColorBrush x:Key="VsBgBrush" Color="{StaticResource VsBg}" />
+          <SolidColorBrush x:Key="VsSidebarBgBrush" Color="{StaticResource VsSidebarBg}" />
+          <SolidColorBrush x:Key="VsToolBarBgBrush" Color="{StaticResource VsToolBarBg}" />
+          <SolidColorBrush x:Key="VsTitleBarBgBrush" Color="{StaticResource VsTitleBarBg}" />
+          <SolidColorBrush x:Key="VsBorderBrush" Color="{StaticResource VsBorder}" />
+          <SolidColorBrush x:Key="VsBorderSubtleBrush" Color="{StaticResource VsBorderSubtle}" />
+          <SolidColorBrush x:Key="VsTextBrush" Color="{StaticResource VsText}" />
+          <SolidColorBrush x:Key="VsTextMutedBrush" Color="{StaticResource VsTextMuted}" />
+          <SolidColorBrush x:Key="VsAccentBrush" Color="{StaticResource VsAccent}" />
+          <SolidColorBrush x:Key="VsCodeBgBrush" Color="{StaticResource VsCodeBg}" />
+          <SolidColorBrush x:Key="VsStatusBarBgBrush" Color="{StaticResource VsStatusBarBg}" />
+          <SolidColorBrush x:Key="VsStatusBarTextBrush" Color="{StaticResource VsStatusBarText}" />
+          <SolidColorBrush x:Key="VsConnectedBrush" Color="{StaticResource VsConnected}" />
+          <SolidColorBrush x:Key="VsDisconnectedBrush" Color="{StaticResource VsDisconnected}" />
+          <SolidColorBrush x:Key="TextBoxDefaultBackground" Color="#F3F3F3" />
+          <SolidColorBrush x:Key="TextBoxPointeroverBackground" Color="#F3F3F3" />
+          <SolidColorBrush x:Key="TextBoxPressedBackground" Color="#F3F3F3" />
+          <SolidColorBrush x:Key="TextBoxBorderedDefaultBackground" Color="#F3F3F3" />
+          <SolidColorBrush x:Key="TextBoxBorderedPointeroverBackground" Color="#F3F3F3" />
+          <SolidColorBrush x:Key="TextBoxDefaultBorderBrush" Color="#E6E6E6" />
+          <SolidColorBrush x:Key="TextBoxPointeroverBorderBrush" Color="#E6E6E6" />
+          <SolidColorBrush x:Key="TextBoxFocusBorderBrush" Color="#E6E6E6" />
+          <SolidColorBrush x:Key="TextBoxBorderedDefaultBorderBrush" Color="#E6E6E6" />
+          <SolidColorBrush x:Key="TextBoxBorderedPointeroverBorderBrush" Color="#E6E6E6" />
+          <SolidColorBrush x:Key="ComboBoxSelectorBackground" Color="#F3F3F3" />
+          <SolidColorBrush x:Key="ComboBoxSelectorPointeroverBackground" Color="#F3F3F3" />
+          <SolidColorBrush x:Key="ComboBoxSelectorFocusBackground" Color="#F3F3F3" />
+          <SolidColorBrush x:Key="ComboBoxSelectorPressedBackground" Color="#F3F3F3" />
+          <SolidColorBrush x:Key="ComboBoxSelectorBorderedBackground" Color="#F3F3F3" />
+          <SolidColorBrush x:Key="ComboBoxSelectorBorderedPointeroverBackground" Color="#F3F3F3" />
+          <SolidColorBrush x:Key="ComboBoxSelectorBorderedFocusBackground" Color="#F3F3F3" />
+          <SolidColorBrush x:Key="ComboBoxSelectorBorderedPressedBackground" Color="#F3F3F3" />
+          <SolidColorBrush x:Key="ComboBoxSelectorBorderBrush" Color="#E6E6E6" />
+          <SolidColorBrush x:Key="ComboBoxSelectorPointeroverBorderBrush" Color="#E6E6E6" />
+          <SolidColorBrush x:Key="ComboBoxSelectorFocusBorderBrush" Color="#E6E6E6" />
+          <SolidColorBrush x:Key="ComboBoxSelectorPressedBorderBrush" Color="#E6E6E6" />
+          <SolidColorBrush x:Key="ComboBoxSelectorBorderedBorderBrush" Color="#E6E6E6" />
+          <SolidColorBrush x:Key="ComboBoxSelectorBorderedPointeroverBorderBrush" Color="#E6E6E6" />
+          <SolidColorBrush x:Key="ComboBoxSelectorBorderedFocusBorderBrush" Color="#E6E6E6" />
+          <SolidColorBrush x:Key="ComboBoxSelectorBorderedPressedBorderBrush" Color="#E6E6E6" />
+        </ResourceDictionary>
+      </ResourceDictionary.ThemeDictionaries>
+      <FontFamily x:Key="VsUiFont">Segoe UI, Inter, Microsoft YaHei UI, sans-serif</FontFamily>
+      <FontFamily x:Key="VsMonoFont">Cascadia Mono, Consolas, Courier New, monospace</FontFamily>
+    </ResourceDictionary>
+  </Application.Resources>
+
+  <Application.Styles>
+    <semi:SemiTheme />
+    <materialIcons:MaterialIconStyles />
+    <StyleInclude Source="avares://GOZA.Dock/Themes/DockShellStyles.axaml" />
+    <StyleInclude Source="avares://SerialSync/Styles/VsStyles.axaml" />
+    <StyleInclude Source="avares://SerialSync/Styles/VsFocusOverrides.axaml" />
+    <Style Selector="Window">
+      <Setter Property="FontFamily" Value="{StaticResource VsUiFont}" />
+      <Setter Property="Background" Value="{DynamicResource VsBgBrush}" />
+    </Style>
+  </Application.Styles>
+</Application>

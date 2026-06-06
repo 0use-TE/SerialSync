@@ -1,0 +1,41 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:avalonia="using:Material.Icons.Avalonia"
+             xmlns:vm="using:SerialSync.ViewModels"
+             x:Class="SerialSync.Views.LogView"
+             Classes="vs-panel"
+             x:DataType="vm:LogViewModel">
+  <DockPanel>
+    <Border DockPanel.Dock="Top" Classes="vs-toolbar">
+      <Border.Resources>
+        <ResourceDictionary>
+          <ResourceDictionary.MergedDictionaries>
+            <ResourceInclude Source="avares://SerialSync/Styles/VsSemiToolbarInput.axaml" />
+          </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+      </Border.Resources>
+      <Grid ColumnDefinitions="*,Auto,Auto">
+        <TextBox Classes="vs-search" Text="{Binding SearchText}" PlaceholderText="筛选日志..." />
+        <Button Grid.Column="1" Classes="vs-tool-btn" Margin="6,0,0,0"
+                Command="{Binding OpenLogFolderCommand}" ToolTip.Tip="打开日志目录">
+          <avalonia:MaterialIcon Kind="FolderOpenOutline" Width="14" Height="14" />
+        </Button>
+        <Button Grid.Column="2" Classes="vs-tool-btn" Command="{Binding ClearCommand}" ToolTip.Tip="清空">
+          <avalonia:MaterialIcon Kind="DeleteOutline" Width="14" Height="14" />
+        </Button>
+      </Grid>
+    </Border>
+
+    <ListBox Classes="vs-log" ItemsSource="{Binding Lines}">
+      <ListBox.ItemTemplate>
+        <DataTemplate x:DataType="vm:LogViewModel+LogLine">
+          <Grid ColumnDefinitions="64,52,*" Margin="4,1">
+            <TextBlock Grid.Column="0" Text="{Binding Time}" Foreground="{DynamicResource VsTextMutedBrush}" />
+            <TextBlock Grid.Column="1" Text="{Binding Level}" Foreground="{Binding LevelBrush}" FontWeight="SemiBold" />
+            <TextBlock Grid.Column="2" Text="{Binding Message}" TextWrapping="Wrap" Foreground="{DynamicResource VsTextBrush}" />
+          </Grid>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+  </DockPanel>
+</UserControl>

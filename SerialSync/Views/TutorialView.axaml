@@ -1,0 +1,57 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="SerialSync.Views.TutorialView"
+             HorizontalAlignment="Stretch"
+             VerticalAlignment="Stretch"
+             MinHeight="0">
+  <ScrollViewer MinHeight="0"
+                VerticalScrollBarVisibility="Auto"
+                HorizontalScrollBarVisibility="Disabled">
+    <StackPanel Spacing="14" Margin="16,8,16,12" MaxWidth="540">
+      <TextBlock Text="快速上手" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource VsAccentBrush}" />
+
+      <StackPanel Spacing="6">
+        <TextBlock Text="1. 连接串口" FontWeight="SemiBold" />
+        <TextBlock TextWrapping="Wrap" Opacity="0.9"
+                   Text="在左侧「串口」面板选择端口与波特率，点击「连接」。连接成功后状态栏显示绿色指示。" />
+      </StackPanel>
+
+      <StackPanel Spacing="6">
+        <TextBlock Text="2. 接收数据" FontWeight="SemiBold" />
+        <TextBlock TextWrapping="Wrap" Opacity="0.9"
+                   Text="「接收」面板为只读终端，可选中文本后 Ctrl+C 复制。工具栏可切换文本/HEX 或清空。" />
+      </StackPanel>
+
+      <StackPanel Spacing="6">
+        <TextBlock Text="3. 发送数据" FontWeight="SemiBold" />
+        <TextBlock TextWrapping="Wrap" Opacity="0.9"
+                   Text="「发送」面板支持文本/HEX/文件；「快捷」「序列」为独立 Dock 面板。Ctrl + Enter 快捷发送。" />
+      </StackPanel>
+
+      <StackPanel Spacing="6">
+        <TextBlock Text="4. 布局" FontWeight="SemiBold" />
+        <TextBlock TextWrapping="Wrap" Opacity="0.9"
+                   Text="拖拽 Tab 移动面板；双击 Tab 全屏；拖动分割条调整大小，布局与 Tab 顺序自动保存。" />
+      </StackPanel>
+
+      <Border BorderBrush="{DynamicResource VsBorderSubtleBrush}" BorderThickness="0,1,0,0" Padding="0,12,0,0" Margin="0,4,0,0">
+        <StackPanel Spacing="8">
+          <TextBlock Text="关于" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource VsAccentBrush}" />
+          <TextBlock TextWrapping="Wrap" Opacity="0.9" Text="SerialSync — Avalonia 串口调试工具" />
+          <TextBlock TextWrapping="Wrap" Opacity="0.9" Text="技术栈：Crystal.Avalonia · GOZA.Dock · Serilog" />
+          <TextBlock TextWrapping="Wrap" Opacity="0.9" Text="作者：0use-TE" />
+          <TextBlock TextWrapping="Wrap" Opacity="0.9" Text="开源协议：MIT" />
+          <StackPanel Orientation="Horizontal" Spacing="6">
+            <TextBlock VerticalAlignment="Center" Opacity="0.9" Text="GitHub：" />
+            <Button x:Name="GitHubLink" Classes="vs-tool-btn" Padding="0,2"
+                    Content="github.com/0use-TE/SerialSync"
+                    Foreground="{DynamicResource VsAccentBrush}"
+                    Cursor="Hand" />
+          </StackPanel>
+          <TextBlock TextWrapping="Wrap" Opacity="0.7" FontSize="11"
+                     Text="关闭后点击右上角「教程」按钮可重新打开。" />
+        </StackPanel>
+      </Border>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

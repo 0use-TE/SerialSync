@@ -1,0 +1,13 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <SolidColorBrush x:Key="TextBoxDefaultBackground" Color="#1E1E1E" />
+  <SolidColorBrush x:Key="TextBoxPointeroverBackground" Color="#1E1E1E" />
+  <SolidColorBrush x:Key="TextBoxPressedBackground" Color="#1E1E1E" />
+  <SolidColorBrush x:Key="TextBoxBorderedDefaultBackground" Color="#1E1E1E" />
+  <SolidColorBrush x:Key="TextBoxBorderedPointeroverBackground" Color="#1E1E1E" />
+  <SolidColorBrush x:Key="TextBoxDefaultBorderBrush" Color="Transparent" />
+  <SolidColorBrush x:Key="TextBoxPointeroverBorderBrush" Color="Transparent" />
+  <SolidColorBrush x:Key="TextBoxFocusBorderBrush" Color="Transparent" />
+  <SolidColorBrush x:Key="TextBoxBorderedDefaultBorderBrush" Color="Transparent" />
+  <SolidColorBrush x:Key="TextBoxBorderedPointeroverBorderBrush" Color="Transparent" />
+</ResourceDictionary>

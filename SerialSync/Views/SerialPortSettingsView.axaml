@@ -1,0 +1,66 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:avalonia="using:Material.Icons.Avalonia"
+             xmlns:vm="using:SerialSync.ViewModels"
+             x:Class="SerialSync.Views.SerialPortSettingsView"
+             Classes="vs-panel"
+             x:DataType="vm:SerialPortSettingsViewModel">
+  <DockPanel>
+    <Border DockPanel.Dock="Top" Classes="vs-toolbar">
+      <Grid ColumnDefinitions="*,Auto">
+        <TextBlock Text="连接属性" FontSize="12" Foreground="{DynamicResource VsTextMutedBrush}" VerticalAlignment="Center" />
+        <Button Grid.Column="1" Classes="vs-tool-btn" Command="{Binding RefreshPortsCommand}" ToolTip.Tip="刷新端口列表">
+          <StackPanel Orientation="Horizontal" Spacing="4">
+            <avalonia:MaterialIcon Kind="Refresh" Width="14" Height="14" />
+            <TextBlock Text="刷新" FontSize="12" />
+          </StackPanel>
+        </Button>
+      </Grid>
+    </Border>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+      <StackPanel Margin="0,4,0,8">
+        <Grid Classes="vs-form-row" ColumnDefinitions="88,*">
+          <TextBlock Classes="vs-form-label" Grid.Column="0" Text="端口" />
+          <ComboBox Grid.Column="1" Classes="vs-form-input" Margin="0,0,12,0"
+                    ItemsSource="{Binding PortNames}" SelectedItem="{Binding SelectedPort}" />
+        </Grid>
+        <Grid Classes="vs-form-row" ColumnDefinitions="88,*">
+          <TextBlock Classes="vs-form-label" Grid.Column="0" Text="波特率" />
+          <ComboBox Grid.Column="1" Classes="vs-form-input" Margin="0,0,12,0"
+                    ItemsSource="{Binding BaudRates}" SelectedItem="{Binding BaudRate}" />
+        </Grid>
+        <Grid Classes="vs-form-row" ColumnDefinitions="88,*">
+          <TextBlock Classes="vs-form-label" Grid.Column="0" Text="校验位" />
+          <ComboBox Grid.Column="1" Classes="vs-form-input" Margin="0,0,12,0"
+                    ItemsSource="{Binding ParityValues}" SelectedItem="{Binding Parity}" />
+        </Grid>
+        <Grid Classes="vs-form-row" ColumnDefinitions="88,*">
+          <TextBlock Classes="vs-form-label" Grid.Column="0" Text="数据位" />
+          <ComboBox Grid.Column="1" Classes="vs-form-input" Margin="0,0,12,0"
+                    ItemsSource="{Binding DataBitsOptions}" SelectedItem="{Binding DataBits}" />
+        </Grid>
+        <Grid Classes="vs-form-row" ColumnDefinitions="88,*">
+          <TextBlock Classes="vs-form-label" Grid.Column="0" Text="停止位" />
+          <ComboBox Grid.Column="1" Classes="vs-form-input" Margin="0,0,12,0"
+                    ItemsSource="{Binding StopBitsValues}" SelectedItem="{Binding StopBits}" />
+        </Grid>
+
+        <Border Margin="12,12,12,8" BorderBrush="{DynamicResource VsBorderSubtleBrush}" BorderThickness="0,1,0,0" Padding="0,12,0,0">
+          <StackPanel Spacing="8">
+            <Button Classes="vs-primary-btn"
+                    Classes.vs-danger="{Binding IsConnected}"
+                    HorizontalAlignment="Stretch"
+                    Margin="0,0,12,0"
+                    Command="{Binding ToggleConnectionCommand}"
+                    Content="{Binding ConnectButtonText}" />
+            <StackPanel IsVisible="{Binding IsConnected}" Orientation="Horizontal" Spacing="16" Margin="12,0,0,0">
+              <CheckBox Content="DTR" IsChecked="{Binding DtrEnable}" FontSize="12" />
+              <CheckBox Content="RTS" IsChecked="{Binding RtsEnable}" FontSize="12" />
+            </StackPanel>
+          </StackPanel>
+        </Border>
+      </StackPanel>
+    </ScrollViewer>
+  </DockPanel>
+</UserControl>

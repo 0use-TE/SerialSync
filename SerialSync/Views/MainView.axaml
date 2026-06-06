@@ -1,0 +1,117 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:avalonia="using:Material.Icons.Avalonia"
+             xmlns:dock="using:GOZA.Dock.Controls"
+             xmlns:views="using:SerialSync.Views"
+             xmlns:vm="using:SerialSync.ViewModels"
+             x:Class="SerialSync.Views.MainView"
+             ViewModelLocator.AutoWireViewModel="True"
+             x:DataType="vm:MainViewModel"
+             Background="{DynamicResource VsBgBrush}"
+             MinWidth="900"
+             MinHeight="560">
+  <Grid>
+    <DockPanel>
+      <!-- 右上角：教程 / 主题 -->
+      <Border DockPanel.Dock="Top" Classes="vs-toolbar" Padding="4,2">
+        <Grid ColumnDefinitions="*,Auto">
+          <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="2">
+            <Button Classes="vs-tool-btn" Command="{Binding ToggleTutorialCommand}" ToolTip.Tip="使用教程">
+              <avalonia:MaterialIcon Kind="BookOpenOutline" Width="16" Height="16" />
+            </Button>
+            <Button Classes="vs-tool-btn" Command="{Binding ToggleThemeCommand}" ToolTip.Tip="切换明暗主题">
+              <avalonia:MaterialIcon Kind="ThemeLightDark" Width="16" Height="16" />
+            </Button>
+          </StackPanel>
+        </Grid>
+      </Border>
+
+      <Border DockPanel.Dock="Bottom" Classes="vs-statusbar">
+        <Grid ColumnDefinitions="Auto,Auto,*,Auto,Auto">
+          <Ellipse Grid.Column="0" Width="8" Height="8" Margin="0,0,6,0" VerticalAlignment="Center"
+                   Fill="{Binding SerialSettings.StatusIndicatorBrush}" />
+          <TextBlock Grid.Column="1" Classes="vs-statusbar-text" Text="{Binding SerialSettings.StatusText}" Margin="0,0,16,0" />
+          <TextBlock Grid.Column="2" Classes="vs-statusbar-text" HorizontalAlignment="Right" Opacity="0.9"
+                     Text="{Binding Traffic.TotalRxBytes, StringFormat=RX {0} B}" Margin="0,0,12,0" />
+          <TextBlock Grid.Column="3" Classes="vs-statusbar-text" HorizontalAlignment="Right" Opacity="0.9"
+                     Text="{Binding Traffic.TotalTxBytes, StringFormat=TX {0} B}" Margin="0,0,16,0" />
+          <TextBlock Grid.Column="4" Classes="vs-statusbar-text" Opacity="0.75" Text="就绪" />
+        </Grid>
+      </Border>
+
+      <dock:DockShell x:Name="DockRoot" EnableParkingLot="True">
+        <Grid Background="{DynamicResource VsBgBrush}">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="{Binding LeftGridLength, Mode=TwoWay}" MinWidth="180" />
+            <ColumnDefinition Width="{Binding LeftSplitterColumnWidth, Mode=TwoWay}" />
+            <ColumnDefinition Width="{Binding CenterColumnWidth, Mode=TwoWay}" MinWidth="320" />
+            <ColumnDefinition Width="{Binding RightSplitterColumnWidth, Mode=TwoWay}" />
+            <ColumnDefinition Width="{Binding RightGridLength, Mode=TwoWay}" MinWidth="200" />
+          </Grid.ColumnDefinitions>
+
+          <dock:DockRegion Grid.Column="0"
+                           ItemsSource="{Binding LeftTabs}"
+                           SelectedItem="{Binding LeftSelected, Mode=TwoWay}" />
+
+          <dock:DockSplitter Grid.Column="1" ShowsPreview="True" />
+
+          <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+              <RowDefinition Height="{Binding CenterTopGridLength, Mode=TwoWay}" MinHeight="120" />
+              <RowDefinition Height="{Binding CenterHSplitterRowHeight, Mode=TwoWay}" />
+              <RowDefinition Height="{Binding CenterBottomGridLength, Mode=TwoWay}" MinHeight="140" />
+            </Grid.RowDefinitions>
+
+            <dock:DockRegion Grid.Row="0"
+                             ItemsSource="{Binding CenterTopTabs}"
+                             SelectedItem="{Binding CenterTopSelected, Mode=TwoWay}" />
+
+            <dock:DockSplitter Grid.Row="1" ShowsPreview="True" />
+
+            <dock:DockRegion Grid.Row="2"
+                             ItemsSource="{Binding CenterBottomTabs}"
+                             SelectedItem="{Binding CenterBottomSelected, Mode=TwoWay}" />
+          </Grid>
+
+          <dock:DockSplitter Grid.Column="3" ShowsPreview="True" />
+
+          <dock:DockRegion Grid.Column="4"
+                           ItemsSource="{Binding RightTabs}"
+                           SelectedItem="{Binding RightSelected, Mode=TwoWay}" />
+        </Grid>
+      </dock:DockShell>
+    </DockPanel>
+
+    <!-- 教程浮层 -->
+    <Border IsVisible="{Binding IsTutorialOpen}"
+            Background="#CC000000"
+            ZIndex="100"
+            Padding="32">
+      <Border Width="580"
+              MaxWidth="580"
+              MaxHeight="{Binding Bounds.Height, RelativeSource={RelativeSource AncestorType=Border}}"
+              Background="{DynamicResource VsSidebarBgBrush}"
+              BorderBrush="{DynamicResource VsBorderBrush}"
+              BorderThickness="1"
+              CornerRadius="4"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Center">
+        <Grid RowDefinitions="Auto,*,Auto" MinHeight="0">
+          <Border Grid.Row="0" Classes="vs-toolbar" Padding="12,8">
+            <Grid ColumnDefinitions="*,Auto">
+              <TextBlock Text="欢迎使用 SerialSync" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" />
+              <Button Grid.Column="1" Classes="vs-tool-btn" Command="{Binding CloseTutorialCommand}" ToolTip.Tip="关闭">
+                <avalonia:MaterialIcon Kind="Close" Width="16" Height="16" />
+              </Button>
+            </Grid>
+          </Border>
+          <views:TutorialView Grid.Row="1" MinHeight="0" />
+          <Border Grid.Row="2" Padding="12,10" BorderBrush="{DynamicResource VsBorderSubtleBrush}" BorderThickness="0,1,0,0">
+            <Button Classes="vs-primary-btn" HorizontalAlignment="Right" MinWidth="96" Content="知道了"
+                    Command="{Binding CloseTutorialCommand}" />
+          </Border>
+        </Grid>
+      </Border>
+    </Border>
+  </Grid>
+</UserControl>

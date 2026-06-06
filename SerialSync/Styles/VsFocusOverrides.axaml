@@ -1,0 +1,127 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <!-- ============================================================
+       全局禁用聚焦/悬停时的灰色背景变化（覆盖 Semi 主题）
+       ============================================================ -->
+
+  <!-- TextBox 默认（属性面板、搜索框等） -->
+  <Style Selector="TextBox">
+    <Setter Property="Background" Value="{DynamicResource VsSidebarBgBrush}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource VsBorderSubtleBrush}" />
+  </Style>
+  <Style Selector="TextBox:focus">
+    <Setter Property="Background" Value="{DynamicResource VsSidebarBgBrush}" />
+  </Style>
+  <Style Selector="TextBox:focus-within">
+    <Setter Property="Background" Value="{DynamicResource VsSidebarBgBrush}" />
+  </Style>
+  <Style Selector="TextBox:pointerover">
+    <Setter Property="Background" Value="{DynamicResource VsSidebarBgBrush}" />
+  </Style>
+  <Style Selector="TextBox /template/ Border#PART_BorderElement">
+    <Setter Property="Background" Value="{DynamicResource VsSidebarBgBrush}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource VsBorderSubtleBrush}" />
+    <Setter Property="BorderThickness" Value="1" />
+  </Style>
+  <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+    <Setter Property="Background" Value="{DynamicResource VsSidebarBgBrush}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource VsBorderSubtleBrush}" />
+  </Style>
+  <Style Selector="TextBox:focus-within /template/ Border#PART_BorderElement">
+    <Setter Property="Background" Value="{DynamicResource VsSidebarBgBrush}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource VsBorderSubtleBrush}" />
+  </Style>
+  <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
+    <Setter Property="Background" Value="{DynamicResource VsSidebarBgBrush}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource VsBorderSubtleBrush}" />
+  </Style>
+
+  <!-- 终端 / 代码区 TextBox：始终 #1E1E1E -->
+  <Style Selector="TextBox.vs-code">
+    <Setter Property="Background" Value="{DynamicResource VsCodeBgBrush}" />
+    <Setter Property="BorderThickness" Value="0" />
+  </Style>
+  <Style Selector="TextBox.vs-code:focus">
+    <Setter Property="Background" Value="{DynamicResource VsCodeBgBrush}" />
+  </Style>
+  <Style Selector="TextBox.vs-code:focus-within">
+    <Setter Property="Background" Value="{DynamicResource VsCodeBgBrush}" />
+  </Style>
+  <Style Selector="TextBox.vs-code:pointerover">
+    <Setter Property="Background" Value="{DynamicResource VsCodeBgBrush}" />
+  </Style>
+  <Style Selector="TextBox.vs-code /template/ Border#PART_BorderElement">
+    <Setter Property="Background" Value="{DynamicResource VsCodeBgBrush}" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+  </Style>
+  <Style Selector="TextBox.vs-code:focus /template/ Border#PART_BorderElement">
+    <Setter Property="Background" Value="{DynamicResource VsCodeBgBrush}" />
+    <Setter Property="BorderThickness" Value="0" />
+  </Style>
+  <Style Selector="TextBox.vs-code:focus-within /template/ Border#PART_BorderElement">
+    <Setter Property="Background" Value="{DynamicResource VsCodeBgBrush}" />
+    <Setter Property="BorderThickness" Value="0" />
+  </Style>
+  <Style Selector="TextBox.vs-code:pointerover /template/ Border#PART_BorderElement">
+    <Setter Property="Background" Value="{DynamicResource VsCodeBgBrush}" />
+    <Setter Property="BorderThickness" Value="0" />
+  </Style>
+
+  <!-- 工具栏搜索框 -->
+  <Style Selector="TextBox.vs-search">
+    <Setter Property="Background" Value="{DynamicResource VsToolBarBgBrush}" />
+  </Style>
+  <Style Selector="TextBox.vs-search:focus /template/ Border#PART_BorderElement">
+    <Setter Property="Background" Value="{DynamicResource VsToolBarBgBrush}" />
+  </Style>
+  <Style Selector="TextBox.vs-search:focus-within /template/ Border#PART_BorderElement">
+    <Setter Property="Background" Value="{DynamicResource VsToolBarBgBrush}" />
+  </Style>
+
+  <!-- ComboBox：属性面板 -->
+  <Style Selector="ComboBox.vs-form-input">
+    <Setter Property="Background" Value="{DynamicResource VsSidebarBgBrush}" />
+  </Style>
+  <Style Selector="ComboBox.vs-form-input:focus">
+    <Setter Property="Background" Value="{DynamicResource VsSidebarBgBrush}" />
+  </Style>
+  <Style Selector="ComboBox.vs-form-input:focus-within">
+    <Setter Property="Background" Value="{DynamicResource VsSidebarBgBrush}" />
+  </Style>
+  <Style Selector="ComboBox.vs-form-input:pointerover">
+    <Setter Property="Background" Value="{DynamicResource VsSidebarBgBrush}" />
+  </Style>
+  <Style Selector="ComboBox.vs-form-input /template/ Border">
+    <Setter Property="Background" Value="{DynamicResource VsSidebarBgBrush}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource VsBorderSubtleBrush}" />
+  </Style>
+  <Style Selector="ComboBox.vs-form-input:focus /template/ Border">
+    <Setter Property="Background" Value="{DynamicResource VsSidebarBgBrush}" />
+  </Style>
+  <Style Selector="ComboBox.vs-form-input:focus-within /template/ Border">
+    <Setter Property="Background" Value="{DynamicResource VsSidebarBgBrush}" />
+  </Style>
+  <Style Selector="ComboBox.vs-form-input:pointerover /template/ Border">
+    <Setter Property="Background" Value="{DynamicResource VsSidebarBgBrush}" />
+  </Style>
+
+  <!-- ComboBox：发送工具栏 -->
+  <Style Selector="ComboBox.vs-toolbar-combo">
+    <Setter Property="Background" Value="{DynamicResource VsToolBarBgBrush}" />
+  </Style>
+  <Style Selector="ComboBox.vs-toolbar-combo:focus /template/ Border">
+    <Setter Property="Background" Value="{DynamicResource VsToolBarBgBrush}" />
+  </Style>
+  <Style Selector="ComboBox.vs-toolbar-combo:focus-within /template/ Border">
+    <Setter Property="Background" Value="{DynamicResource VsToolBarBgBrush}" />
+  </Style>
+  <Style Selector="ComboBox.vs-toolbar-combo:pointerover /template/ Border">
+    <Setter Property="Background" Value="{DynamicResource VsToolBarBgBrush}" />
+  </Style>
+  <Style Selector="ComboBox.vs-toolbar-combo /template/ Border">
+    <Setter Property="Background" Value="{DynamicResource VsToolBarBgBrush}" />
+  </Style>
+
+</Styles>

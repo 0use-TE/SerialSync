@@ -1,0 +1,29 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <SolidColorBrush x:Key="ComboBoxSelectorBackground" Color="#2D2D30" />
+  <SolidColorBrush x:Key="ComboBoxSelectorPointeroverBackground" Color="#2D2D30" />
+  <SolidColorBrush x:Key="ComboBoxSelectorFocusBackground" Color="#2D2D30" />
+  <SolidColorBrush x:Key="ComboBoxSelectorPressedBackground" Color="#2D2D30" />
+  <SolidColorBrush x:Key="ComboBoxSelectorBorderedBackground" Color="#2D2D30" />
+  <SolidColorBrush x:Key="ComboBoxSelectorBorderedPointeroverBackground" Color="#2D2D30" />
+  <SolidColorBrush x:Key="ComboBoxSelectorBorderedFocusBackground" Color="#2D2D30" />
+  <SolidColorBrush x:Key="ComboBoxSelectorBorderedPressedBackground" Color="#2D2D30" />
+  <SolidColorBrush x:Key="ComboBoxSelectorBorderBrush" Color="#333337" />
+  <SolidColorBrush x:Key="ComboBoxSelectorPointeroverBorderBrush" Color="#333337" />
+  <SolidColorBrush x:Key="ComboBoxSelectorFocusBorderBrush" Color="#333337" />
+  <SolidColorBrush x:Key="ComboBoxSelectorPressedBorderBrush" Color="#333337" />
+  <SolidColorBrush x:Key="ComboBoxSelectorBorderedBorderBrush" Color="#333337" />
+  <SolidColorBrush x:Key="ComboBoxSelectorBorderedPointeroverBorderBrush" Color="#333337" />
+  <SolidColorBrush x:Key="ComboBoxSelectorBorderedFocusBorderBrush" Color="#333337" />
+  <SolidColorBrush x:Key="ComboBoxSelectorBorderedPressedBorderBrush" Color="#333337" />
+  <SolidColorBrush x:Key="TextBoxDefaultBackground" Color="#2D2D30" />
+  <SolidColorBrush x:Key="TextBoxPointeroverBackground" Color="#2D2D30" />
+  <SolidColorBrush x:Key="TextBoxPressedBackground" Color="#2D2D30" />
+  <SolidColorBrush x:Key="TextBoxBorderedDefaultBackground" Color="#2D2D30" />
+  <SolidColorBrush x:Key="TextBoxBorderedPointeroverBackground" Color="#2D2D30" />
+  <SolidColorBrush x:Key="TextBoxDefaultBorderBrush" Color="#333337" />
+  <SolidColorBrush x:Key="TextBoxPointeroverBorderBrush" Color="#333337" />
+  <SolidColorBrush x:Key="TextBoxFocusBorderBrush" Color="#333337" />
+  <SolidColorBrush x:Key="TextBoxBorderedDefaultBorderBrush" Color="#333337" />
+  <SolidColorBrush x:Key="TextBoxBorderedPointeroverBorderBrush" Color="#333337" />
+</ResourceDictionary>
