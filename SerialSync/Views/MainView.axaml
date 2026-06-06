@@ -12,6 +12,16 @@
              MinHeight="560">
   <Grid>
     <DockPanel>
+      <Border DockPanel.Dock="Top" Classes="vs-toolbar" Padding="8,4"
+              Background="#664000"
+              IsVisible="{Binding IsBrowserPreview}">
+        <StackPanel Orientation="Horizontal" Spacing="8">
+          <avalonia:MaterialIcon Kind="Web" Width="16" Height="16" VerticalAlignment="Center" />
+          <TextBlock VerticalAlignment="Center" FontSize="12" TextWrapping="Wrap"
+                     Text="Web 界面预览 · 串口为模拟数据，无法访问真实硬件。请下载桌面版进行实际调试。" />
+        </StackPanel>
+      </Border>
+
       <!-- 右上角：教程 / 主题 -->
       <Border DockPanel.Dock="Top" Classes="vs-toolbar" Padding="4,2">
         <Grid ColumnDefinitions="*,Auto">

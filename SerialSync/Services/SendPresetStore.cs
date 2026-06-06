@@ -1,5 +1,5 @@
 using SerialSync.Models;
-using SerialSync.Services;
+using System.Collections.ObjectModel;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -40,7 +40,16 @@ public sealed class SendPresetStore
     {
         var json = JsonSerializer.Serialize(storage, SendPresetJsonContext.Default.SendPresetStorage);
         File.WriteAllText(_path, json);
+        PresetsChanged?.Invoke(this, EventArgs.Empty);
     }
+
+    public string ToJson(SendPresetStorage storage) =>
+        JsonSerializer.Serialize(storage, SendPresetJsonContext.Default.SendPresetStorage);
+
+    public SendPresetStorage? FromJson(string json) =>
+        JsonSerializer.Deserialize(json, SendPresetJsonContext.Default.SendPresetStorage);
+
+    public event EventHandler? PresetsChanged;
 }
 
 [JsonSerializable(typeof(SendPresetStorage))]
@@ -49,6 +58,7 @@ public sealed class SendPresetStore
 [JsonSerializable(typeof(SendSequenceStep))]
 [JsonSerializable(typeof(List<QuickCommand>))]
 [JsonSerializable(typeof(List<SendSequenceStep>))]
+[JsonSerializable(typeof(ObservableCollection<SendSequenceStep>))]
 [JsonSerializable(typeof(List<SendSequence>))]
 [JsonSourceGenerationOptions(WriteIndented = true)]
 internal partial class SendPresetJsonContext : JsonSerializerContext;

@@ -68,7 +68,9 @@ public partial class MainViewModel : ObservableObject, ILifecycleAware
     public QuickSendViewModel QuickSend { get; }
     public SequenceViewModel Sequence { get; }
     public LogViewModel Log { get; }
+    public ToolsViewModel Tools { get; }
     public SerialTrafficService Traffic { get; }
+    public bool IsBrowserPreview { get; }
 
     private readonly LayoutStore _layoutStore;
     private readonly Dictionary<string, DockTabViewModel> _tabLookup;
@@ -81,17 +83,21 @@ public partial class MainViewModel : ObservableObject, ILifecycleAware
         QuickSendViewModel quickSend,
         SequenceViewModel sequence,
         LogViewModel log,
+        ToolsViewModel tools,
         LayoutStore layoutStore,
-        SerialTrafficService traffic)
+        SerialTrafficService traffic,
+        IAppHostEnvironment hostEnvironment)
     {
         _layoutStore = layoutStore;
         Traffic = traffic;
+        IsBrowserPreview = hostEnvironment.IsBrowserPreview;
         SerialSettings = serialSettings;
         Receive = receive;
         Send = send;
         QuickSend = quickSend;
         Sequence = sequence;
         Log = log;
+        Tools = tools;
 
         _tabLookup = new Dictionary<string, DockTabViewModel>(StringComparer.Ordinal)
         {
@@ -101,6 +107,7 @@ public partial class MainViewModel : ObservableObject, ILifecycleAware
             [quickSend.Id] = quickSend,
             [sequence.Id] = sequence,
             [log.Id] = log,
+            [tools.Id] = tools,
         };
 
         _suspendSave = true;
@@ -118,7 +125,7 @@ public partial class MainViewModel : ObservableObject, ILifecycleAware
         _suspendSave = false;
     }
 
-    public Task OnLoadedAsync()
+    public async Task OnLoadedAsync()
     {
         _suspendSave = true;
         var stored = _layoutStore.Load();
@@ -132,7 +139,7 @@ public partial class MainViewModel : ObservableObject, ILifecycleAware
             Application.Current.RequestedThemeVariant = IsDarkMode ? ThemeVariant.Dark : ThemeVariant.Light;
 
         _suspendSave = false;
-        return Task.CompletedTask;
+        await SerialSettings.TryAutoConnectOnStartupAsync();
     }
 
     public Task OnUnloaded()
@@ -260,6 +267,8 @@ public partial class MainViewModel : ObservableObject, ILifecycleAware
             CenterTopBottomProportion = proportion,
             IsDarkMode = IsDarkMode,
             IsTutorialOpen = IsTutorialOpen,
+            ReceiveShowTimestamp = Receive.ShowTimestamp,
+            ReceiveAutoScroll = Receive.AutoScroll,
             LeftItems = LeftTabs.Select(t => t.Id).ToList(),
             RightItems = RightTabs.Select(t => t.Id).ToList(),
             CenterTopItems = CenterTopTabs.Select(t => t.Id).ToList(),

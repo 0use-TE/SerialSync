@@ -20,9 +20,12 @@ public partial class ReceiveViewModel : DockTabViewModel, IDisposable
     private readonly ILogger<ReceiveViewModel> _logger;
     private readonly INotificationService _notifications;
     private readonly SerialTrafficService _traffic;
+    private readonly TextEncodingService _encoding;
+    private readonly LayoutStore _layoutStore;
     private readonly StringBuilder _textBuffer = new();
     private readonly List<byte> _rawBuffer = new();
     private readonly IDisposable _subscription;
+    private bool _suspendSave;
 
     [ObservableProperty]
     private ReceiveFormat _displayFormat = ReceiveFormat.Text;
@@ -33,19 +36,40 @@ public partial class ReceiveViewModel : DockTabViewModel, IDisposable
     [ObservableProperty]
     private bool _autoScroll = true;
 
+    [ObservableProperty]
+    private bool _showTimestamp;
+
+    [ObservableProperty]
+    private bool _isPaused;
+
+    [ObservableProperty]
+    private string _searchText = string.Empty;
+
     public long TotalBytes => _traffic.TotalRxBytes;
     public string DisplayFormatLabel => DisplayFormat == ReceiveFormat.Hex ? "切换文本" : "切换 HEX";
+    public string PauseButtonText => IsPaused ? "继续" : "暂停";
 
     public ReceiveViewModel(
         ISerialPortService serial,
         ILogger<ReceiveViewModel> logger,
         INotificationService notifications,
-        SerialTrafficService traffic)
+        SerialTrafficService traffic,
+        TextEncodingService encoding,
+        LayoutStore layoutStore)
     {
         _serial = serial;
         _logger = logger;
         _notifications = notifications;
         _traffic = traffic;
+        _encoding = encoding;
+        _layoutStore = layoutStore;
+
+        _suspendSave = true;
+        var layout = _layoutStore.Load();
+        ShowTimestamp = layout.ReceiveShowTimestamp;
+        AutoScroll = layout.ReceiveAutoScroll;
+        _suspendSave = false;
+
         _traffic.PropertyChanged += (_, e) =>
         {
             if (e.PropertyName == nameof(SerialTrafficService.TotalRxBytes))
@@ -71,6 +95,15 @@ public partial class ReceiveViewModel : DockTabViewModel, IDisposable
     {
         DisplayFormat = DisplayFormat == ReceiveFormat.Text ? ReceiveFormat.Hex : ReceiveFormat.Text;
         RefreshDisplay();
+    }
+
+    [RelayCommand]
+    private void TogglePause()
+    {
+        IsPaused = !IsPaused;
+        OnPropertyChanged(nameof(PauseButtonText));
+        if (!IsPaused)
+            RefreshDisplay();
     }
 
     [RelayCommand]
@@ -110,7 +143,7 @@ public partial class ReceiveViewModel : DockTabViewModel, IDisposable
             if (isText)
             {
                 var text = _textBuffer.ToString();
-                var bytes = Encoding.UTF8.GetBytes(text);
+                var bytes = _encoding.GetEncoding().GetBytes(text);
                 await stream.WriteAsync(bytes);
             }
             else
@@ -120,12 +153,10 @@ public partial class ReceiveViewModel : DockTabViewModel, IDisposable
 
             await stream.FlushAsync();
             _notifications.ShowSuccess("已保存", file.Name);
-            _logger.LogInformation("接收数据已保存 {File}", file.Name);
         }
         catch (Exception ex)
         {
             _notifications.ShowError("保存失败", ex.Message);
-            _logger.LogError(ex, "保存接收数据失败");
         }
     }
 
@@ -135,24 +166,67 @@ public partial class ReceiveViewModel : DockTabViewModel, IDisposable
         RefreshDisplay();
     }
 
+    partial void OnShowTimestampChanged(bool value) => SaveReceivePrefs();
+    partial void OnAutoScrollChanged(bool value) => SaveReceivePrefs();
+    partial void OnSearchTextChanged(string value) => RefreshDisplay();
+
+    partial void OnIsPausedChanged(bool value) => OnPropertyChanged(nameof(PauseButtonText));
+
     private void OnReceived(ReceiveRecord record)
     {
         Dispatcher.UIThread.Post(() =>
         {
             _rawBuffer.AddRange(record.Data);
             _traffic.AddRx(record.Data.Length);
-            _textBuffer.Append(Encoding.UTF8.GetString(record.Data));
-            RefreshDisplay();
+
+            var chunk = DisplayFormat == ReceiveFormat.Hex
+                ? SerialDataFormat.FormatHex(record.Data)
+                : _encoding.Decode(record.Data);
+
+            if (ShowTimestamp)
+            {
+                var prefix = $"[{DateTime.Now:HH:mm:ss.fff}] ";
+                _textBuffer.Append(prefix).Append(chunk);
+            }
+            else
+            {
+                _textBuffer.Append(chunk);
+            }
+
+            if (!IsPaused)
+                RefreshDisplay();
         });
     }
 
     private void RefreshDisplay()
     {
-        DisplayText = DisplayFormat switch
+        var text = DisplayFormat switch
         {
-            ReceiveFormat.Hex => SerialPortService.FormatHex(_rawBuffer.ToArray()),
+            ReceiveFormat.Hex => SerialDataFormat.FormatHex(_rawBuffer.ToArray()),
             _ => _textBuffer.ToString(),
         };
+
+        if (string.IsNullOrWhiteSpace(SearchText))
+            DisplayText = text;
+        else
+            DisplayText = FilterText(text, SearchText);
+    }
+
+    private static string FilterText(string text, string query)
+    {
+        var lines = text.Split('\n');
+        return string.Join('\n', lines.Where(l => l.Contains(query, StringComparison.OrdinalIgnoreCase)));
+    }
+
+    private void SaveReceivePrefs()
+    {
+        if (_suspendSave)
+            return;
+
+        var layout = _layoutStore.Load();
+        layout.ReceiveShowTimestamp = ShowTimestamp;
+        layout.ReceiveAutoScroll = AutoScroll;
+        _layoutStore.Save(layout);
     }
 
     public void Dispose() => _subscription.Dispose();

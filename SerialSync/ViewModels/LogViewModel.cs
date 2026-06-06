@@ -66,12 +66,16 @@ public partial class LogViewModel : DockTabViewModel, IDisposable
     [RelayCommand]
     private void OpenLogFolder()
     {
+#if BROWSER
+        return;
+#else
         Directory.CreateDirectory(_layoutStore.LogFolder);
         Process.Start(new ProcessStartInfo
         {
             FileName = _layoutStore.LogFolder,
             UseShellExecute = true,
         });
+#endif
     }
 
     partial void OnSearchTextChanged(string value)

@@ -1,5 +1,4 @@
 using SerialSync.Models;
-using System.Text;
 
 namespace SerialSync.Services;
 
@@ -10,6 +9,7 @@ public static class SerialSendOperations
         string payload,
         SendFormat format,
         LineEnding lineEnding,
+        TextEncodingService encoding,
         SerialTrafficService? traffic = null)
     {
         if (!serial.IsOpen)
@@ -20,20 +20,21 @@ public static class SerialSendOperations
 
         if (format == SendFormat.Hex)
         {
-            data = SerialPortService.ParseHex(payload);
-            preview = SerialPortService.FormatHex(data);
+            data = SerialDataFormat.ParseHex(payload);
+            preview = SerialDataFormat.FormatHex(data);
             serial.SendBytes(data);
         }
         else
         {
             serial.SendText(payload, lineEnding);
-            data = Encoding.UTF8.GetBytes(payload + lineEnding switch
+            var suffix = lineEnding switch
             {
                 LineEnding.Cr => "\r",
                 LineEnding.Lf => "\n",
                 LineEnding.CrLf => "\r\n",
                 _ => string.Empty,
-            });
+            };
+            data = encoding.Encode(payload + suffix);
             preview = payload;
         }
 

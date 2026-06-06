@@ -1,0 +1,42 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:avalonia="using:Material.Icons.Avalonia"
+             xmlns:vm="using:SerialSync.ViewModels"
+             x:Class="SerialSync.Views.ToolsView"
+             Classes="vs-panel"
+             x:DataType="vm:ToolsViewModel">
+  <ScrollViewer VerticalScrollBarVisibility="Auto">
+    <StackPanel Margin="12,8,12,16" Spacing="16">
+      <TextBlock Text="Modbus RTU" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource VsTextMutedBrush}" />
+      <Grid ColumnDefinitions="72,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" RowSpacing="8">
+        <TextBlock Grid.Row="0" Grid.Column="0" Classes="vs-form-label" Text="从站" VerticalAlignment="Center" />
+        <TextBox Grid.Row="0" Grid.Column="1" Classes="vs-form-input" Text="{Binding ModbusSlave}" />
+        <TextBlock Grid.Row="1" Grid.Column="0" Classes="vs-form-label" Text="功能码" VerticalAlignment="Center" />
+        <TextBox Grid.Row="1" Grid.Column="1" Classes="vs-form-input" Text="{Binding ModbusFunction}" />
+        <TextBlock Grid.Row="2" Grid.Column="0" Classes="vs-form-label" Text="地址" VerticalAlignment="Center" />
+        <TextBox Grid.Row="2" Grid.Column="1" Classes="vs-form-input" Text="{Binding ModbusAddress}" />
+        <TextBlock Grid.Row="3" Grid.Column="0" Classes="vs-form-label" Text="数量" VerticalAlignment="Center" />
+        <TextBox Grid.Row="3" Grid.Column="1" Classes="vs-form-input" Text="{Binding ModbusRegisterCount}" />
+        <Button Grid.Row="4" Grid.Column="1" Classes="vs-tool-btn" HorizontalAlignment="Left"
+                Command="{Binding BuildModbusReadCommand}" Content="生成读寄存器帧" />
+        <TextBox Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Classes="vs-code" MinHeight="48"
+                 Text="{Binding ModbusFrame}" IsReadOnly="True" TextWrapping="Wrap" />
+      </Grid>
+      <Button Classes="vs-primary-btn" HorizontalAlignment="Stretch"
+              Command="{Binding FillSendFromModbusCommand}" Content="填入发送面板" />
+
+      <Border BorderBrush="{DynamicResource VsBorderSubtleBrush}" BorderThickness="0,1,0,0" Padding="0,12,0,0">
+        <StackPanel Spacing="8">
+          <TextBlock Text="CRC16 (Modbus)" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource VsTextMutedBrush}" />
+          <TextBox Classes="vs-code" MinHeight="48" Text="{Binding CrcInputHex}" TextWrapping="Wrap"
+                   PlaceholderText="HEX 数据（空格分隔）" />
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <Button Classes="vs-tool-btn" Command="{Binding CalculateCrcCommand}" Content="计算 CRC" />
+            <Button Classes="vs-tool-btn" Command="{Binding FillSendFromCrcInputCommand}" Content="填入发送（含 CRC）" />
+          </StackPanel>
+          <TextBlock Text="{Binding CrcResult}" FontSize="12" Foreground="{DynamicResource VsAccentBrush}" TextWrapping="Wrap" />
+        </StackPanel>
+      </Border>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

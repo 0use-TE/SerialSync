@@ -1,89 +1,280 @@
 <UserControl xmlns="https://github.com/avaloniaui"
+
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+
              xmlns:avalonia="using:Material.Icons.Avalonia"
+
              xmlns:models="using:SerialSync.Models"
+
              xmlns:vm="using:SerialSync.ViewModels"
+
              x:Class="SerialSync.Views.SequenceView"
+
              x:Name="SeqRoot"
+
              Classes="vs-panel"
+
              x:DataType="vm:SequenceViewModel">
+
+  <UserControl.KeyBindings>
+
+    <KeyBinding Gesture="Ctrl+Enter" Command="{Binding AddOrUpdateStepCommand}" />
+
+    <KeyBinding Gesture="Ctrl+Return" Command="{Binding AddOrUpdateStepCommand}" />
+
+  </UserControl.KeyBindings>
+
   <DockPanel>
+
     <Border DockPanel.Dock="Top" Classes="vs-toolbar">
-      <Grid ColumnDefinitions="Auto,Auto,Auto,*,Auto,Auto,Auto">
+
+      <Border.Resources>
+
+        <ResourceDictionary>
+
+          <ResourceDictionary.MergedDictionaries>
+
+            <ResourceInclude Source="avares://SerialSync/Styles/VsSemiToolbarInput.axaml" />
+
+          </ResourceDictionary.MergedDictionaries>
+
+        </ResourceDictionary>
+
+      </Border.Resources>
+
+      <Grid ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,*,Auto">
+
         <Button Grid.Column="0" Classes="vs-tool-btn" Command="{Binding CreateSequenceCommand}" ToolTip.Tip="新建序列">
+
           <avalonia:MaterialIcon Kind="Plus" Width="14" Height="14" />
+
         </Button>
+
         <Button Grid.Column="1" Classes="vs-tool-btn" Margin="4,0,0,0"
+
                 Command="{Binding RunSequenceCommand}" CommandParameter="{Binding SelectedSequence}"
+
                 IsEnabled="{Binding !IsRunningSequence}" ToolTip.Tip="运行选中序列">
+
           <avalonia:MaterialIcon Kind="Play" Width="14" Height="14" />
+
         </Button>
+
         <Button Grid.Column="2" Classes="vs-tool-btn" Margin="4,0,0,0"
+
                 Command="{Binding StopSequenceCommand}" IsVisible="{Binding IsRunningSequence}">
+
           <avalonia:MaterialIcon Kind="Stop" Width="14" Height="14" />
+
         </Button>
-        <StackPanel Grid.Column="4" Orientation="Horizontal" Spacing="4" VerticalAlignment="Center"
+
+        <CheckBox Grid.Column="3" Margin="8,0,0,0" Content="循环" IsChecked="{Binding LoopSequence}" FontSize="12" />
+
+        <Border Grid.Column="4" Width="1" Height="16" Background="{DynamicResource VsBorderBrush}" Margin="6,0" VerticalAlignment="Center" />
+
+        <ComboBox Grid.Column="5" Classes="vs-toolbar-combo" Width="88" MinHeight="26" FontSize="12" Margin="0,0,6,0"
+
+                  ItemsSource="{Binding SendFormats}" SelectedItem="{Binding SendFormat}" />
+
+        <ComboBox Grid.Column="6" Classes="vs-toolbar-combo" Width="96" MinHeight="26" FontSize="12" Margin="0,0,6,0"
+
+                  IsVisible="{Binding IsTextMode}"
+
+                  ItemsSource="{Binding LineEndings}" SelectedItem="{Binding LineEnding}" />
+
+        <StackPanel Grid.Column="7" Orientation="Horizontal" Spacing="4" VerticalAlignment="Center"
+
                     IsVisible="{Binding HasSelectedSequence}">
+
           <TextBlock FontSize="11" Foreground="{DynamicResource VsTextMutedBrush}" Text="步骤间隔" />
+
           <TextBox Width="52" MinHeight="24" FontSize="12" Text="{Binding StepDelayMs}" />
+
           <TextBlock FontSize="11" Foreground="{DynamicResource VsTextMutedBrush}" Text="ms" />
+
+          <Button Classes="vs-tool-btn" Margin="4,0,0,0" Command="{Binding AddOrUpdateStepCommand}">
+
+            <TextBlock Text="{Binding StepButtonText}" FontSize="12" />
+
+          </Button>
+
+          <Button Classes="vs-tool-btn" Command="{Binding ClearStepSelectionCommand}" IsVisible="{Binding IsEditingStep}">
+
+            <TextBlock Text="取消编辑" FontSize="12" />
+
+          </Button>
+
         </StackPanel>
-        <Button Grid.Column="5" Classes="vs-tool-btn" Margin="8,0,0,0"
-                Command="{Binding AddStepFromSendPanelCommand}" ToolTip.Tip="从发送面板添加步骤">
-          <TextBlock Text="+ 从发送添加" FontSize="12" />
-        </Button>
+
       </Grid>
+
     </Border>
 
-    <Grid ColumnDefinitions="220,*">
-      <ListBox Grid.Column="0" Classes="vs-history" ItemsSource="{Binding Sequences}"
-               SelectedItem="{Binding SelectedSequence}">
-        <ListBox.ItemTemplate>
-          <DataTemplate x:DataType="models:SendSequence">
-            <Grid ColumnDefinitions="*,Auto" Classes="vs-history-item">
-              <StackPanel Spacing="1">
-                <TextBlock Text="{Binding Name}" FontWeight="SemiBold" />
-                <TextBlock FontSize="11" Opacity="0.65" Text="{Binding Steps.Count, StringFormat={}{0} 步}" />
-              </StackPanel>
-              <Button Grid.Column="1" Classes="vs-tool-btn"
-                      Command="{Binding #SeqRoot.((vm:SequenceViewModel)DataContext).DeleteSequenceCommand}"
-                      CommandParameter="{Binding}">
-                <avalonia:MaterialIcon Kind="DeleteOutline" Width="14" Height="14" />
-              </Button>
-            </Grid>
-          </DataTemplate>
-        </ListBox.ItemTemplate>
-      </ListBox>
 
-      <Border Grid.Column="1" BorderBrush="{DynamicResource VsBorderSubtleBrush}" BorderThickness="1,0,0,0"
-              IsVisible="{Binding HasSelectedSequence}">
-        <DockPanel>
+
+    <Grid ColumnDefinitions="220,*" RowDefinitions="Auto,*">
+
+      <TextBox Grid.Column="0" Grid.Row="0" Margin="8,6,8,0" Classes="vs-form-input" FontSize="12"
+
+               IsVisible="{Binding HasSelectedSequence}"
+
+               Text="{Binding SelectedSequence.Name, Mode=TwoWay}"
+
+               PlaceholderText="序列名称" LostFocus="OnSequenceNameLostFocus" />
+
+
+
+      <Grid Grid.Column="0" Grid.Row="1" RowDefinitions="*,1,*" Background="{DynamicResource VsSidebarBgBrush}">
+
+        <DockPanel Grid.Row="0" MinHeight="80">
+
           <TextBlock DockPanel.Dock="Top" Margin="8,6,8,4" FontSize="11"
-                     Foreground="{DynamicResource VsTextMutedBrush}"
-                     Text="{Binding SelectedSequence.Name, StringFormat=步骤 · {0}}" />
-          <ListBox Classes="vs-history" ItemsSource="{Binding SelectedSequence.Steps}">
+
+                     Foreground="{DynamicResource VsTextMutedBrush}" Text="序列" />
+
+          <ListBox Classes="vs-history" ItemsSource="{Binding Sequences}"
+
+                   SelectedItem="{Binding SelectedSequence}">
+
             <ListBox.ItemTemplate>
-              <DataTemplate x:DataType="models:SendSequenceStep">
-                <Grid ColumnDefinitions="*,Auto,Auto" Classes="vs-history-item">
-                  <StackPanel Grid.Column="0" Spacing="1">
-                    <TextBlock Text="{Binding Payload}" TextTrimming="CharacterEllipsis"
-                               ToolTip.Tip="{Binding Payload}" FontSize="12" />
-                    <TextBlock FontSize="10" Opacity="0.6"
-                               Text="{Binding DelayAfterMs, StringFormat=间隔 {0} ms}" />
+
+              <DataTemplate x:DataType="models:SendSequence">
+
+                <Grid ColumnDefinitions="*,Auto" Classes="vs-history-item">
+
+                  <StackPanel Spacing="1">
+
+                    <TextBlock Text="{Binding Name}" FontWeight="SemiBold" />
+
+                    <TextBlock FontSize="11" Opacity="0.65" Text="{Binding StepCount, StringFormat={}{0} 步}" />
+
                   </StackPanel>
-                  <TextBlock Grid.Column="1" VerticalAlignment="Center" FontSize="10" Opacity="0.55"
-                             Margin="4,0" Text="{Binding Format}" />
-                  <Button Grid.Column="2" Classes="vs-tool-btn"
-                          Command="{Binding #SeqRoot.((vm:SequenceViewModel)DataContext).RemoveSequenceStepCommand}"
+
+                  <Button Grid.Column="1" Classes="vs-tool-btn"
+
+                          Command="{Binding #SeqRoot.((vm:SequenceViewModel)DataContext).DeleteSequenceCommand}"
+
                           CommandParameter="{Binding}">
-                    <avalonia:MaterialIcon Kind="Close" Width="12" Height="12" />
+
+                    <avalonia:MaterialIcon Kind="DeleteOutline" Width="14" Height="14" />
+
                   </Button>
+
                 </Grid>
+
               </DataTemplate>
+
             </ListBox.ItemTemplate>
+
           </ListBox>
+
         </DockPanel>
+
+
+
+        <Border Grid.Row="1" Background="{DynamicResource VsBorderSubtleBrush}" />
+
+
+
+        <DockPanel Grid.Row="2" MinHeight="80" IsVisible="{Binding HasSelectedSequence}">
+
+          <TextBlock DockPanel.Dock="Top" Margin="8,6,8,4" FontSize="11"
+
+                     Foreground="{DynamicResource VsTextMutedBrush}"
+
+                     Text="{Binding SelectedSequence.Name, StringFormat=步骤 · {0}}" />
+
+          <ListBox Classes="vs-history" ItemsSource="{Binding SelectedSequence.Steps}"
+
+                   SelectedItem="{Binding SelectedStep}">
+
+            <ListBox.ItemTemplate>
+
+              <DataTemplate x:DataType="models:SendSequenceStep">
+
+                <Grid ColumnDefinitions="*,Auto,Auto" Classes="vs-history-item">
+
+                  <StackPanel Grid.Column="0" Spacing="1">
+
+                    <TextBlock Text="{Binding Payload}" TextTrimming="CharacterEllipsis"
+
+                               ToolTip.Tip="{Binding Payload}" FontSize="12" />
+
+                    <TextBlock FontSize="10" Opacity="0.6"
+
+                               Text="{Binding DelayAfterMs, StringFormat=间隔 {0} ms}" />
+
+                  </StackPanel>
+
+                  <TextBlock Grid.Column="1" VerticalAlignment="Center" FontSize="10" Opacity="0.55"
+
+                             Margin="4,0" Text="{Binding Format}" />
+
+                  <Button Grid.Column="2" Classes="vs-tool-btn"
+
+                          Command="{Binding #SeqRoot.((vm:SequenceViewModel)DataContext).RemoveSequenceStepCommand}"
+
+                          CommandParameter="{Binding}">
+
+                    <avalonia:MaterialIcon Kind="Close" Width="12" Height="12" />
+
+                  </Button>
+
+                </Grid>
+
+              </DataTemplate>
+
+            </ListBox.ItemTemplate>
+
+          </ListBox>
+
+        </DockPanel>
+
+      </Grid>
+
+
+
+      <Border Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" BorderBrush="{DynamicResource VsBorderSubtleBrush}" BorderThickness="1,0,0,0">
+
+        <Border.Resources>
+
+          <ResourceDictionary>
+
+            <ResourceDictionary.MergedDictionaries>
+
+              <ResourceInclude Source="avares://SerialSync/Styles/VsSemiCodeInput.axaml" />
+
+            </ResourceDictionary.MergedDictionaries>
+
+          </ResourceDictionary>
+
+        </Border.Resources>
+
+        <TextBox Classes="vs-code"
+
+                 Text="{Binding InputText}"
+
+                 PlaceholderText="Text / HEX 步骤内容&#x0a;Ctrl+Enter 添加/更新步骤"
+
+                 VerticalAlignment="Stretch"
+
+                 VerticalContentAlignment="Top">
+
+          <TextBox.KeyBindings>
+
+            <KeyBinding Gesture="Ctrl+Enter" Command="{Binding AddOrUpdateStepCommand}" />
+
+            <KeyBinding Gesture="Ctrl+Return" Command="{Binding AddOrUpdateStepCommand}" />
+
+          </TextBox.KeyBindings>
+
+        </TextBox>
+
       </Border>
+
     </Grid>
+
   </DockPanel>
+
 </UserControl>
+

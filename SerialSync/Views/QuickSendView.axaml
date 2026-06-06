@@ -1,49 +1,202 @@
 <UserControl xmlns="https://github.com/avaloniaui"
+
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+
              xmlns:avalonia="using:Material.Icons.Avalonia"
+
              xmlns:models="using:SerialSync.Models"
+
              xmlns:vm="using:SerialSync.ViewModels"
+
              x:Class="SerialSync.Views.QuickSendView"
+
              x:Name="QuickRoot"
+
              Classes="vs-panel"
+
              x:DataType="vm:QuickSendViewModel">
+
+  <UserControl.KeyBindings>
+
+    <KeyBinding Gesture="Ctrl+Enter" Command="{Binding SaveQuickCommandCommand}" />
+
+    <KeyBinding Gesture="Ctrl+Return" Command="{Binding SaveQuickCommandCommand}" />
+
+  </UserControl.KeyBindings>
+
   <DockPanel>
+
     <Border DockPanel.Dock="Top" Classes="vs-toolbar">
-      <Grid ColumnDefinitions="*,Auto">
-        <TextBlock VerticalAlignment="Center" FontSize="11"
-                   Foreground="{DynamicResource VsTextMutedBrush}"
-                   Text="一键发送 · 在「发送」面板输入后点此保存" />
-        <Button Grid.Column="1" Classes="vs-tool-btn" Command="{Binding SaveFromSendPanelCommand}">
-          <StackPanel Orientation="Horizontal" Spacing="4">
-            <avalonia:MaterialIcon Kind="ContentSaveOutline" Width="14" Height="14" />
-            <TextBlock Text="从发送面板保存" FontSize="12" />
-          </StackPanel>
+
+      <Border.Resources>
+
+        <ResourceDictionary>
+
+          <ResourceDictionary.MergedDictionaries>
+
+            <ResourceInclude Source="avares://SerialSync/Styles/VsSemiToolbarInput.axaml" />
+
+          </ResourceDictionary.MergedDictionaries>
+
+        </ResourceDictionary>
+
+      </Border.Resources>
+
+      <Grid ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,*,Auto">
+
+        <ComboBox Grid.Column="0" Classes="vs-toolbar-combo" Width="88" MinHeight="26" FontSize="12" Margin="0,0,6,0"
+
+                  ItemsSource="{Binding SendFormats}" SelectedItem="{Binding SendFormat}" />
+
+        <ComboBox Grid.Column="1" Classes="vs-toolbar-combo" Width="96" MinHeight="26" FontSize="12" Margin="0,0,6,0"
+
+                  IsVisible="{Binding IsTextMode}"
+
+                  ItemsSource="{Binding LineEndings}" SelectedItem="{Binding LineEnding}" />
+
+        <Button Grid.Column="2" Classes="vs-tool-btn" Command="{Binding SaveQuickCommandCommand}">
+
+          <TextBlock Text="{Binding SaveButtonText}" FontSize="12" />
+
         </Button>
+
+        <Button Grid.Column="3" Classes="vs-tool-btn" Margin="4,0,0,0" Command="{Binding NewQuickCommandCommand}">
+
+          <avalonia:MaterialIcon Kind="Plus" Width="14" Height="14" />
+
+        </Button>
+
+        <Button Grid.Column="4" x:Name="ImportButton" Classes="vs-tool-btn" Margin="4,0,0,0" ToolTip.Tip="导入预设">
+
+          <avalonia:MaterialIcon Kind="Import" Width="14" Height="14" />
+
+        </Button>
+
+        <Button Grid.Column="5" x:Name="ExportButton" Classes="vs-tool-btn" ToolTip.Tip="导出预设">
+
+          <avalonia:MaterialIcon Kind="Export" Width="14" Height="14" />
+
+        </Button>
+
+        <TextBlock Grid.Column="6" VerticalAlignment="Center" FontSize="11"
+
+                   Foreground="{DynamicResource VsTextMutedBrush}"
+
+                   Text="左侧点击发送" />
+
       </Grid>
+
     </Border>
 
-    <ListBox Classes="vs-history" ItemsSource="{Binding QuickCommands}">
-      <ListBox.ItemTemplate>
-        <DataTemplate x:DataType="models:QuickCommand">
-          <Grid ColumnDefinitions="*,Auto,Auto" Classes="vs-history-item">
-            <StackPanel Grid.Column="0" Spacing="2">
-              <TextBlock Text="{Binding Name}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
-              <TextBlock Text="{Binding Payload}" Opacity="0.65" FontSize="11" TextTrimming="CharacterEllipsis"
-                         ToolTip.Tip="{Binding Payload}" />
-            </StackPanel>
-            <Button Grid.Column="1" Classes="vs-tool-btn" Margin="4,0,0,0"
-                    Command="{Binding #QuickRoot.((vm:QuickSendViewModel)DataContext).RunQuickCommandCommand}"
-                    CommandParameter="{Binding}">
-              <avalonia:MaterialIcon Kind="Send" Width="14" Height="14" />
-            </Button>
-            <Button Grid.Column="2" Classes="vs-tool-btn"
-                    Command="{Binding #QuickRoot.((vm:QuickSendViewModel)DataContext).DeleteQuickCommandCommand}"
-                    CommandParameter="{Binding}">
-              <avalonia:MaterialIcon Kind="Close" Width="14" Height="14" />
-            </Button>
-          </Grid>
-        </DataTemplate>
-      </ListBox.ItemTemplate>
-    </ListBox>
+
+
+    <Grid ColumnDefinitions="220,*" RowDefinitions="Auto,*">
+
+      <TextBox Grid.Column="1" Grid.Row="0" Margin="8,6,8,0" Classes="vs-form-input" FontSize="12"
+
+               Text="{Binding QuickName}" PlaceholderText="快捷指令名称（可选）" />
+
+
+
+      <DockPanel Grid.Column="0" Grid.Row="1" Background="{DynamicResource VsSidebarBgBrush}">
+
+        <TextBlock DockPanel.Dock="Top" Margin="8,6,8,4" FontSize="11"
+
+                   Foreground="{DynamicResource VsTextMutedBrush}" Text="快捷指令 · 点击发送" />
+
+        <ListBox Classes="vs-history" ItemsSource="{Binding QuickCommands}"
+
+                 SelectedItem="{Binding SelectedQuickCommand}">
+
+          <ListBox.ItemTemplate>
+
+            <DataTemplate x:DataType="models:QuickCommand">
+
+              <Grid ColumnDefinitions="*,Auto,Auto" Classes="vs-history-item">
+
+                <StackPanel Grid.Column="0" Spacing="2">
+
+                  <TextBlock Text="{Binding Name}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+
+                  <TextBlock Text="{Binding Payload}" Opacity="0.65" FontSize="11" TextTrimming="CharacterEllipsis"
+
+                             ToolTip.Tip="{Binding Payload}" />
+
+                </StackPanel>
+
+                <Button Grid.Column="1" Classes="vs-tool-btn" Margin="4,0,0,0"
+
+                        Command="{Binding #QuickRoot.((vm:QuickSendViewModel)DataContext).RunQuickCommandCommand}"
+
+                        CommandParameter="{Binding}">
+
+                  <avalonia:MaterialIcon Kind="Send" Width="14" Height="14" />
+
+                </Button>
+
+                <Button Grid.Column="2" Classes="vs-tool-btn"
+
+                        Command="{Binding #QuickRoot.((vm:QuickSendViewModel)DataContext).DeleteQuickCommandCommand}"
+
+                        CommandParameter="{Binding}">
+
+                  <avalonia:MaterialIcon Kind="Close" Width="14" Height="14" />
+
+                </Button>
+
+              </Grid>
+
+            </DataTemplate>
+
+          </ListBox.ItemTemplate>
+
+        </ListBox>
+
+      </DockPanel>
+
+
+
+      <Border Grid.Column="1" Grid.Row="1" BorderBrush="{DynamicResource VsBorderSubtleBrush}" BorderThickness="1,0,0,0">
+
+        <Border.Resources>
+
+          <ResourceDictionary>
+
+            <ResourceDictionary.MergedDictionaries>
+
+              <ResourceInclude Source="avares://SerialSync/Styles/VsSemiCodeInput.axaml" />
+
+            </ResourceDictionary.MergedDictionaries>
+
+          </ResourceDictionary>
+
+        </Border.Resources>
+
+        <TextBox Classes="vs-code"
+
+                 Text="{Binding InputText}"
+
+                 PlaceholderText="Text / HEX 输入&#x0a;Ctrl+Enter 保存为快捷指令"
+
+                 VerticalAlignment="Stretch"
+
+                 VerticalContentAlignment="Top">
+
+          <TextBox.KeyBindings>
+
+            <KeyBinding Gesture="Ctrl+Enter" Command="{Binding SaveQuickCommandCommand}" />
+
+            <KeyBinding Gesture="Ctrl+Return" Command="{Binding SaveQuickCommandCommand}" />
+
+          </TextBox.KeyBindings>
+
+        </TextBox>
+
+      </Border>
+
+    </Grid>
+
   </DockPanel>
+
 </UserControl>
+

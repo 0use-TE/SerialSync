@@ -5,7 +5,16 @@ namespace SerialSync.Services;
 
 public sealed class SendHistoryService
 {
+    private readonly SendHistoryStore _store;
+
     public ObservableCollection<SendRecord> Items { get; } = new();
+
+    public SendHistoryService(SendHistoryStore store)
+    {
+        _store = store;
+        foreach (var dto in _store.Load())
+            Items.Add(dto.ToRecord());
+    }
 
     public void Add(
         string preview,
@@ -30,5 +39,18 @@ public sealed class SendHistoryService
 
         while (Items.Count > 200)
             Items.RemoveAt(Items.Count - 1);
+
+        Persist();
+    }
+
+    public void Clear()
+    {
+        Items.Clear();
+        Persist();
+    }
+
+    private void Persist()
+    {
+        _store.Save(Items.Select(SendRecordDto.From).ToList());
     }
 }

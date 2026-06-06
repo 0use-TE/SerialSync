@@ -1,3 +1,5 @@
 <Solution>
   <Project Path="SerialSync/SerialSync.csproj" />
+  <Project Path="SerialSync.Desktop/SerialSync.Desktop.csproj" />
+  <Project Path="SerialSync.Browser/SerialSync.Browser.csproj" />
 </Solution>

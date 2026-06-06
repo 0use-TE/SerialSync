@@ -25,7 +25,7 @@
       <StackPanel Spacing="6">
         <TextBlock Text="3. 发送数据" FontWeight="SemiBold" />
         <TextBlock TextWrapping="Wrap" Opacity="0.9"
-                   Text="「发送」面板支持文本/HEX/文件；「快捷」「序列」为独立 Dock 面板。Ctrl + Enter 快捷发送。" />
+                   Text="「发送」「快捷」「序列」布局统一：左侧列表、右侧输入区。「发送」Ctrl+Enter 发送；「快捷」Ctrl+Enter 保存，左侧点击发送；「序列」Ctrl+Enter 添加步骤。" />
       </StackPanel>
 
       <StackPanel Spacing="6">
@@ -45,6 +45,13 @@
             <TextBlock VerticalAlignment="Center" Opacity="0.9" Text="GitHub：" />
             <Button x:Name="GitHubLink" Classes="vs-tool-btn" Padding="0,2"
                     Content="github.com/0use-TE/SerialSync"
+                    Foreground="{DynamicResource VsAccentBrush}"
+                    Cursor="Hand" />
+          </StackPanel>
+          <StackPanel Orientation="Horizontal" Spacing="6">
+            <TextBlock VerticalAlignment="Center" Opacity="0.9" Text="Web 预览：" />
+            <Button x:Name="WebPreviewLink" Classes="vs-tool-btn" Padding="0,2"
+                    Content="0use-te.github.io/SerialSync"
                     Foreground="{DynamicResource VsAccentBrush}"
                     Cursor="Hand" />
           </StackPanel>

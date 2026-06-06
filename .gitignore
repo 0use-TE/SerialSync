@@ -1,4 +1,9 @@
 .vs/
 SerialSync/bin/
 SerialSync/obj/
+SerialSync.Desktop/bin/
+SerialSync.Desktop/obj/
+SerialSync.Browser/bin/
+SerialSync.Browser/obj/
 publish-aot-test/
+release-web/

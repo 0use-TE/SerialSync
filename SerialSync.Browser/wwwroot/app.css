@@ -1,0 +1,36 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #1e1e1e;
+    font-family: "Segoe UI", Inter, "Microsoft YaHei UI", sans-serif;
+}
+
+#out {
+    width: 100%;
+    height: 100%;
+}
+
+.avalonia-splash {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    color: #cccccc;
+    gap: 8px;
+}
+
+.avalonia-splash h2 {
+    margin: 0;
+    font-weight: 600;
+    color: #007acc;
+}
+
+.avalonia-splash p {
+    margin: 0;
+    opacity: 0.75;
+    font-size: 14px;
+}

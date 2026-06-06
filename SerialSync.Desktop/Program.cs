@@ -1,7 +1,8 @@
 using Avalonia;
+using SerialSync;
 using System;
 
-namespace SerialSync;
+namespace SerialSync.Desktop;
 
 internal static class Program
 {

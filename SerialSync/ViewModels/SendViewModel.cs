@@ -20,6 +20,7 @@ public partial class SendViewModel : DockTabViewModel
     private readonly INotificationService _notifications;
     private readonly SendHistoryService _history;
     private readonly SerialTrafficService _traffic;
+    private readonly TextEncodingService _encoding;
     private CancellationTokenSource? _periodicCts;
 
     [ObservableProperty]
@@ -62,13 +63,15 @@ public partial class SendViewModel : DockTabViewModel
         ILogger<SendViewModel> logger,
         INotificationService notifications,
         SendHistoryService history,
-        SerialTrafficService traffic)
+        SerialTrafficService traffic,
+        TextEncodingService encoding)
     {
         _serial = serial;
         _logger = logger;
         _notifications = notifications;
         _history = history;
         _traffic = traffic;
+        _encoding = encoding;
         _serial.ConnectionChanged += OnConnectionChanged;
         UpdatePortState(_serial.IsOpen);
     }
@@ -182,7 +185,7 @@ public partial class SendViewModel : DockTabViewModel
         var format = SendFormat;
         var lineEnding = LineEnding;
         var (payload, preview) = await Task.Run(() =>
-            SerialSendOperations.Send(_serial, input, format, lineEnding, _traffic));
+            SerialSendOperations.Send(_serial, input, format, lineEnding, _encoding, _traffic));
 
         _history.Add(preview, input, format, lineEnding, payload.Length);
         if (!silent)
@@ -255,6 +258,12 @@ public partial class SendViewModel : DockTabViewModel
         if (record is null)
             return;
 
+        if (!_serial.IsOpen)
+        {
+            _notifications.ShowWarning("重发失败", "串口未连接");
+            return;
+        }
+
         try
         {
             if (record.IsFile)
@@ -274,7 +283,7 @@ public partial class SendViewModel : DockTabViewModel
             }
 
             var (payload, preview) = await Task.Run(() =>
-                SerialSendOperations.Send(_serial, record.Payload, record.Format, record.LineEnding, _traffic));
+                SerialSendOperations.Send(_serial, record.Payload, record.Format, record.LineEnding, _encoding, _traffic));
             _history.Add(preview, record.Payload, record.Format, record.LineEnding, payload.Length);
             InputText = record.Payload;
             SendFormat = record.Format;
@@ -289,5 +298,5 @@ public partial class SendViewModel : DockTabViewModel
     }
 
     [RelayCommand]
-    private void ClearHistory() => _history.Items.Clear();
+    private void ClearHistory() => _history.Clear();
 }
